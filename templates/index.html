@@ -1,11 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eventos Maranhão</title>
+<!-- comentário -->
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Ícones (opcional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/static/css/style.css">
+
 </head>
-<body>
-    
+<body class="d-flex">
+
+  <!-- Sidebar -->
+  <div class="sidebar d-flex flex-column justify-content-between p-3">
+    <div>
+      <h2>Maranhão<br><span>Events</span></h2>
+      <ul class="nav flex-column mt-4">
+        <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Eventos & Shows</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Restaurantes</a></li>
+      </ul>
+    </div>
+    <div class="small">
+      <p class="mb-0">Usuário</p>
+      <span class="text-white-50">Administrador</span>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="flex-grow-1 p-4 bg-light">
+
+    <header class="mb-4">
+      <h1 class="h3">Olá</h1>
+      <p class="text-muted">Bem-vindo ao sistema de eventos e restaurantes do Maranhão</p>
+      <div class="mt-2">
+        <button class="btn btn-success me-2">+ Novo Evento</button>
+        <button class="btn btn-warning text-dark">+ Novo Restaurante</button>
+      </div>
+    </header>
+      <!-- Área de Chatbot -->
+  <div class="mb-4 p-3 bg-white border rounded shadow-sm">
+    <h5 class="mb-3">Aonde você quer ir hoje?</h5>
+    <form id="chat-form">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Digite sua pergunta..." id="chat-input" disabled>
+        <button class="btn btn-outline-secondary" type="button" disabled>Enviar</button>
+      </div>
+      <small class="text-muted mt-2 d-block">
+        Chat em desenvolvimento — em breve você poderá tirar dúvidas com inteligência artificial!
+      </small>
+    </form>
+  </div>
+
+    <!-- Carrossel -->
+    <div id="carouselExampleAutoplaying" class="carousel slide mb-4 rounded overflow-hidden" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://ibb.co/mVJNbrCR" class="d-block w-100" alt="Evento 1">
+        </div>
+        <div class="carousel-item">
+          <img src="" class="d-block w-100" alt="Evento 2">
+        </div>
+        <div class="carousel-item">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS201pZ13MhGBgmiKGsX8YK_KO5nVwqGmAIcg&s" class="d-block w-100" alt="Evento 3">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Próximo</span>
+      </button>
+    </div>
+
+    <!-- Estatísticas -->
+    <div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card card-eventos">
+      <div class="card-body">
+        <h5 class="card-title">Total de Eventos</h5>
+        <p class="card-text">3 <br><small>0 próximos</small></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card card-restaurantes">
+      <div class="card-body">
+        <h5 class="card-title">Total de Restaurantes</h5>
+        <p class="card-text">4 <br><small>Cadastrados</small></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card card-hoje">
+      <div class="card-body">
+        <h5 class="card-title">Eventos Hoje</h5>
+        <p class="card-text">0 <br><small>Acontecendo</small></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card card-locais">
+      <div class="card-body">
+        <h5 class="card-title">Locais Únicos</h5>
+        <p class="card-text">3 <br><small>Diferentes locais</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Próximos Eventos -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <strong>Próximos Eventos</strong>
+      </div>
+      <div class="card-body text-center text-muted">
+        Nenhum evento cadastrado
+      </div>
+    </div>
+
+    <!-- Restaurantes -->
+    <div class="card-restaurantes-2">
+      <div class="card-header">
+        🍴 Restaurantes
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>Pasta & Amore</strong> ⭐ 4.7 <br><small>Italiana - Turu - $$</small>
+        </li>
+        <li class="list-group-item">
+          <strong>Sushi Zen</strong> ⭐ 4.3 <br><small>Japonesa - São Francisco - $$$</small>
+        </li>
+        <li class="list-group-item">
+          <strong>Cabana do Sol</strong> ⭐ 4.5 <br><small>Maranhense - Ponta D’Areia - $$</small>
+        </li>
+        <li class="list-group-item">
+          <strong>Picanha na Brasa</strong> ⭐ 4.2 <br><small>Brasileira - $$</small>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
