@@ -13,7 +13,7 @@ Escrever aqui
 1. Instalar o Python. Acesse o link aqui:
 
 ### Configuração das variáveis de ambiente
-1. Crie um arquivo na pasta raiz chamado ```.env
+1. Crie um arquivo na pasta raiz chamado `.env`
 2. Acrescente as variáveis a seguir:
 ```
 LOCALHOST = endereço do servidor (localhost ou 127.0.0.1)
