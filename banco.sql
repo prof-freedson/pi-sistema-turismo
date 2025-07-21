@@ -29,7 +29,7 @@ CREATE TABLE eventos (
     data_fim DATE,
     horario TIME,
     local VARCHAR(255),
-    endereco VARCHAR(255),
+    id_end INT,
     preco DECIMAL(10,2),
     capacidade INT,
     organizador VARCHAR(255),
@@ -38,7 +38,8 @@ CREATE TABLE eventos (
     criado_por INT,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id),
-    FOREIGN KEY (criado_por) REFERENCES usuarios(id)
+    FOREIGN KEY (criado_por) REFERENCES usuarios(id),
+    FOREIGN KEY (id_end) REFERENCES endereco(id_end)
 );
 
 -- Tabela de restaurantes
@@ -47,9 +48,8 @@ CREATE TABLE restaurantes (
     nome VARCHAR(255) NOT NULL,
     descricao TEXT,
     tipo_cozinha ENUM('Brasileira','Maranhense','Italiana','Japonesa','Mexicana','Francesa') NOT NULL,
-    endereco VARCHAR(255),
-    bairro VARCHAR(100),
-    telefone VARCHAR(20),
+    id_end INT,
+    id_tel INT,
     horario_funcionamento VARCHAR(100),
     faixa_preco ENUM('R$', 'R$$', 'R$$$', 'R$$$$'),
     capacidade INT,
@@ -61,6 +61,8 @@ CREATE TABLE restaurantes (
     criado_por INT,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (criado_por) REFERENCES usuarios(id)
+    FOREIGN KEY (id_end) REFERENCES endereco(id_end),
+    FOREIGN KEY (id_tel) REFERENCES telefone(id_tel)
 );
 
 -- Tabela de comentários (para eventos e restaurantes)
@@ -96,4 +98,22 @@ CREATE TABLE restaurantes_tags (
     PRIMARY KEY (restaurante_id, tag_id),
     FOREIGN KEY (restaurante_id) REFERENCES restaurantes(id),
     FOREIGN KEY (tag_id) REFERENCES tags(id)
+);
+
+
+-- add Tabela Endereço
+CREATE TABLE endereco (
+    id_end INT AUTO_INCREMENT PRIMARY KEY,
+    rua VARCHAR(100),
+    numero VARCHAR(10),
+    bairro VARCHAR(50),
+    cidade VARCHAR(50),
+    estado CHAR(2)
+);
+
+-- add Tabela Telefone
+CREATE TABLE telefone (
+	id_tel INT AUTO_INCREMENT PRIMARY KEY,
+    fone_1 VARCHAR(20),
+    fone_2 VARCHAR(20)
 );
