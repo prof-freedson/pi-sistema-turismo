@@ -2,6 +2,23 @@
 CREATE DATABASE IF NOT EXISTS encantos_db;
 USE encantos_db;
 
+-- add Tabela Endereço
+CREATE TABLE endereco (
+    id_end INT AUTO_INCREMENT PRIMARY KEY,
+    rua VARCHAR(100),
+    numero VARCHAR(10),
+    bairro VARCHAR(50),
+    cidade VARCHAR(50),
+    estado CHAR(2)
+);
+
+-- add Tabela Telefone
+CREATE TABLE telefone (
+	id_tel INT AUTO_INCREMENT PRIMARY KEY,
+    fone_1 VARCHAR(20),
+    fone_2 VARCHAR(20)
+);
+
 -- Tabela de usuários
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -101,19 +118,3 @@ CREATE TABLE restaurantes_tags (
 );
 
 
--- add Tabela Endereço
-CREATE TABLE endereco (
-    id_end INT AUTO_INCREMENT PRIMARY KEY,
-    rua VARCHAR(100),
-    numero VARCHAR(10),
-    bairro VARCHAR(50),
-    cidade VARCHAR(50),
-    estado CHAR(2)
-);
-
--- add Tabela Telefone
-CREATE TABLE telefone (
-	id_tel INT AUTO_INCREMENT PRIMARY KEY,
-    fone_1 VARCHAR(20),
-    fone_2 VARCHAR(20)
-);
