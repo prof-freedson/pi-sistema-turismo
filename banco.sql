@@ -30,6 +30,7 @@ CREATE TABLE usuarios (
 );
 
 -- Tabela de categorias (para eventos e restaurantes)
+
 CREATE TABLE categorias (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL UNIQUE,
@@ -37,6 +38,7 @@ CREATE TABLE categorias (
 );
 
 -- Tabela de eventos
+
 CREATE TABLE eventos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
@@ -77,7 +79,7 @@ CREATE TABLE restaurantes (
     estacionamento BOOLEAN,
     criado_por INT,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (criado_por) REFERENCES usuarios(id)
+    FOREIGN KEY (criado_por) REFERENCES usuarios(id),
     FOREIGN KEY (id_end) REFERENCES endereco(id_end),
     FOREIGN KEY (id_tel) REFERENCES telefone(id_tel)
 );
@@ -116,5 +118,3 @@ CREATE TABLE restaurantes_tags (
     FOREIGN KEY (restaurante_id) REFERENCES restaurantes(id),
     FOREIGN KEY (tag_id) REFERENCES tags(id)
 );
-
-
