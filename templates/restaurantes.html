@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Restaurantes{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Restaurantes</h2>
+
+<!-- Botão novo -->
+<div class="mb-3 text-end">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRestaurante">Novo Restaurante</button>
+</div>
+
+<!-- Filtros e busca -->
+<form class="row mb-4 g-2">
+    <div class="col-md-4">
+        <select class="form-select" name="tipo_culinaria">
+            <option selected>Todas as Culinárias</option>
+            <option>Brasileira</option>
+            <option>Maranhense</option>
+            <option>Italiana</option>
+            <option>Japonesa</option>
+            <option>Mexicana</option>
+            <option>Francesa</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <select class="form-select" name="faixa_preco">
+            <option selected>Todas as Faixas de Preço</option>
+            <option>$ - Econômico</option>
+            <option>$$ - Moderado</option>
+            <option>$$$ - Caro</option>
+            <option>$$$$ - Muito Caro</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <input type="search" class="form-control" placeholder="Buscar restaurante...">
+    </div>
+</form>
+
+<!-- Tabela de restaurantes -->
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Nome</th>
+            <th>Culinária</th>
+            <th>Bairro</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Exemplo de linha -->
+        <tr>
+            <td>Restaurante do Maranhão</td>
+            <td>Maranhense</td>
+            <td>Centro</td>
+            <td>(98) 99999-9999</td>
+            <td>
+                <button class="btn btn-sm btn-warning">Editar</button>
+                <button class="btn btn-sm btn-danger">Excluir</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal de cadastro de restaurante -->
+<div class="modal fade" id="modalRestaurante" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <form class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Novo Restaurante</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Nome do Restaurante</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Tipo de Culinária</label>
+            <select class="form-select">
+                <option>Brasileira</option>
+                <option>Maranhense</option>
+                <option>Italiana</option>
+                <option>Japonesa</option>
+                <option>Mexicana</option>
+                <option>Francesa</option>
+            </select>
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Descrição</label>
+            <textarea class="form-control"></textarea>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Endereço</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Bairro</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Telefone</label>
+            <input type="text" class="form-control" placeholder="(98) 99999-9999">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Horário de Funcionamento</label>
+            <input type="text" class="form-control" placeholder="Ex: 10h - 22h">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Faixa de Preço</label>
+            <select class="form-select">
+                <option>$ - Econômico</option>
+                <option>$$ - Moderado</option>
+                <option>$$$ - Caro</option>
+                <option>$$$$ - Muito Caro</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Capacidade</label>
+            <input type="number" class="form-control">
+        </div>
+        <div class="col-md-4 form-check mt-3">
+            <input class="form-check-input" type="checkbox" id="reservas">
+            <label class="form-check-label" for="reservas">Aceita Reservas</label>
+        </div>
+        <div class="col-md-4 form-check mt-3">
+            <input class="form-check-input" type="checkbox" id="delivery">
+            <label class="form-check-label" for="delivery">Tem Delivery</label>
+        </div>
+        <div class="col-md-4 form-check mt-3">
+            <input class="form-check-input" type="checkbox" id="estacionamento">
+            <label class="form-check-label" for="estacionamento">Tem Estacionamento</label>
+        </div>
+        <div class="col-md-12 mt-3">
+            <label class="form-label">URL da Imagem</label>
+            <input type="url" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success">Salvar Restaurante</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
