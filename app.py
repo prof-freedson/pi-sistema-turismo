@@ -1,23 +1,28 @@
-# App Projeto Integrador
-from flask import Flask
-from routes.evento_routes import evento_bp
-from routes.restaurante_routes import restaurante_bp
-from routes.usuario_routes import usuario_bp
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask_cors import CORS
+import mysql.connector
+from datetime import datetime, date
+import os
+from config.database import get_db_connection
+from controllers.evento_controller import EventoController
+from controllers.restaurante_controller import RestauranteController
+from controllers.dashboard_controller import DashboardController
+from controllers.auth_controller import AuthController
 
 app = Flask(__name__)
+app.secret_key = 'encantos_da_ilha_secret_key_2025'
 
-# Registro dos blueprints com prefixos opcionais
-app.register_blueprint(evento_bp)
-app.register_blueprint(restaurante_bp)
-app.register_blueprint(usuario_bp)
+# Configurar CORS para permitir requisições de qualquer origem
+CORS(app)
 
-@app.route('/')
-def home():
-    return 'API Encantos da Ilha funcionando!'
+# Inicializar controllers
+evento_controller = EventoController()
+restaurante_controller = RestauranteController()
+dashboard_controller = DashboardController()
+auth_controller = AuthController()
+
+# Importar rotas
+from routes.web import *
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-print("Rotas registradas:")
-for rule in app.url_map.iter_rules():
-    print(rule)
+    app.run(host='0.0.0.0', port=5000, debug=True)
