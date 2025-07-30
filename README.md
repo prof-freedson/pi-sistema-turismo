@@ -22,6 +22,19 @@ PASSWORD = senha do usuário do banco de dados
 DATABASE = nome do banco a ser manipulado
 ```
 
+### Instalação das dependências
+1. Abra o terminal na pasta raiz do projeto
+2. Execute o seguinte comando para instalar as dependências:
+```
+pip install -r requirements.txt
+```
+3. Caso seja incluído um novo pacote no `requirements.txt`, execute o comando novamente para instalar as novas dependências.
+4. Caso algum pacote for instalado e eles não estiver listado no `requirements.txt`, atualize o arquivo com o comando:
+```
+pip freeze > requirements.txt
+```
+5. Caso ocorra algum erro de instalação, verifique se o Python e o pip estão instalados corretamente.
+
 ### Configuração do banco de dados
 Use, de preferência, o SGBD MySQL, para o uso do script no arquivo `banco.sql`
 
