@@ -1,0 +1,69 @@
+ /* CSS para o sistema de turismo */
+ /* comentário */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: linear-gradient(to bottom,rgb(253, 143, 30), rgb(0, 181, 73));
+      min-height: 100vh;
+      color: white;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .sidebar h2 {
+      font-size: 24px;
+    }
+
+    .sidebar span {
+      font-size: 14px;
+    }
+
+    .restaurant-list ul {
+      padding-left: 0;
+    }
+
+    .restaurant-list li {
+      list-style: none;
+      padding: 10px 0;
+    }
+
+.carousel-inner img {
+  width: 100%;
+  height: 700px;           /* Altura desejada */
+  object-fit: cover;       /* Preenche o slide sem distorcer */
+  object-position: center; /* Centraliza o corte */
+}
+
+/* Estátisticas */
+.card-eventos {
+  background-color: rgb(0, 181, 73);
+  color: white;
+}
+
+.card-restaurantes {
+  background-color: rgb(253, 143, 30); 
+  color: white;
+}
+
+.card-hoje {
+  background-color: rgb(32, 65, 128); /* amarelo */
+  color: white; /* texto escuro */
+}
+
+.card-locais {
+  background-color: rgb(216, 26, 33); /* cinza */
+  color: white;
+}
+
+/* Card restaurantes */
+.card-restaurantes-2{
+  background-color:rgb(216, 26, 33);
+  color: rgb(255, 255, 255);
+  
+}
