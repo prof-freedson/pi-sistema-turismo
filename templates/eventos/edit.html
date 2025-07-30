@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Evento - Encantos da Ilha{% endblock %}
+
+{% block page_title %}Editar Evento{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-pencil me-2"></i>
+                    Editar Evento: {{ evento.nome_evento }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('evento_update', evento_id=evento.id) }}">
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="nome_evento" class="form-label">Nome do Evento *</label>
+                            <input type="text" class="form-control" id="nome_evento" name="nome_evento" 
+                                   value="{{ evento.nome_evento }}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="tipo" class="form-label">Tipo *</label>
+                            <select class="form-select" id="tipo" name="tipo" required>
+                                <option value="">Selecione o tipo</option>
+                                {% for tipo in tipos %}
+                                <option value="{{ tipo }}" {% if evento.tipo == tipo %}selected{% endif %}>{{ tipo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3">{{ evento.descricao or '' }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="data_inicio" class="form-label">Data Início *</label>
+                            <input type="date" class="form-control" id="data_inicio" name="data_inicio" 
+                                   value="{{ evento.data_inicio.strftime('%Y-%m-%d') if evento.data_inicio else '' }}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="data_fim" class="form-label">Data Fim *</label>
+                            <input type="date" class="form-control" id="data_fim" name="data_fim" 
+                                   value="{{ evento.data_fim.strftime('%Y-%m-%d') if evento.data_fim else '' }}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="horario" class="form-label">Horário *</label>
+                            <input type="time" class="form-control" id="horario" name="horario" 
+                                   value="{{ evento.horario.strftime('%H:%M') if evento.horario else '' }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="local" class="form-label">Local *</label>
+                            <input type="text" class="form-control" id="local" name="local" 
+                                   value="{{ evento.local }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="endereco" class="form-label">Endereço *</label>
+                            <input type="text" class="form-control" id="endereco" name="endereco" 
+                                   value="{{ evento.endereco }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="preco" class="form-label">Preço (R$)</label>
+                            <input type="number" class="form-control" id="preco" name="preco" step="0.01" min="0"
+                                   value="{{ evento.preco if evento.preco else '' }}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="capacidade" class="form-label">Capacidade</label>
+                            <input type="number" class="form-control" id="capacidade" name="capacidade" min="1"
+                                   value="{{ evento.capacidade if evento.capacidade else '' }}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="organizador" class="form-label">Organizador</label>
+                            <input type="text" class="form-control" id="organizador" name="organizador"
+                                   value="{{ evento.organizador or '' }}">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="contato" class="form-label">Contato</label>
+                            <input type="text" class="form-control" id="contato" name="contato"
+                                   value="{{ evento.contato or '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="url_imagem" class="form-label">URL da Imagem</label>
+                            <input type="url" class="form-control" id="url_imagem" name="url_imagem"
+                                   value="{{ evento.url_imagem or '' }}">
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('eventos') }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-1"></i>
+                            Salvar Alterações
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Validação para garantir que data fim não seja anterior à data início
+document.getElementById('data_inicio').addEventListener('change', function() {
+    document.getElementById('data_fim').min = this.value;
+});
+
+document.getElementById('data_fim').addEventListener('change', function() {
+    const dataInicio = document.getElementById('data_inicio').value;
+    if (dataInicio && this.value < dataInicio) {
+        alert('A data de fim não pode ser anterior à data de início');
+        this.value = dataInicio;
+    }
+});
+</script>
+{% endblock %}
+
