@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Encantos da Ilha{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group" role="group">
+    <a href="{{ url_for('evento_create') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>
+        Novo Evento
+    </a>
+    <a href="{{ url_for('restaurante_create') }}" class="btn btn-success">
+        <i class="bi bi-plus-circle me-1"></i>
+        Novo Restaurante
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Bem vindos ao sistema de eventos e restaurantes do Maranhão</h4>
+            <p class="mb-0">Gerencie eventos, shows e restaurantes da nossa bela ilha de forma simples e eficiente.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Estatísticas -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ total_eventos }}</h4>
+                        <p class="card-text">Total de Eventos</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-calendar-event fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ total_restaurantes }}</h4>
+                        <p class="card-text">Total de Restaurantes</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-shop fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ eventos_hoje }}</h4>
+                        <p class="card-text">Eventos Hoje</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-calendar-day fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title">{{ locais_unicos }}</h4>
+                        <p class="card-text">Locais Únicos</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-geo-alt fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Próximos Eventos -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-calendar-check me-2"></i>
+                    Próximos Eventos
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if proximos_eventos %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Evento</th>
+                                    <th>Tipo</th>
+                                    <th>Data</th>
+                                    <th>Local</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for evento in proximos_eventos %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ evento.nome_evento }}</strong>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ evento.tipo }}</span>
+                                    </td>
+                                    <td>{{ evento.data_inicio.strftime('%d/%m/%Y') if evento.data_inicio else '' }}</td>
+                                    <td>{{ evento.local }}</td>
+                                    <td>
+                                        <a href="{{ url_for('evento_show', evento_id=evento.id) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="{{ url_for('evento_edit', evento_id=evento.id) }}" class="btn btn-sm btn-outline-warning">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted">
+                        <i class="bi bi-calendar-x fs-1"></i>
+                        <p class="mt-2">Nenhum evento próximo encontrado</p>
+                        <a href="{{ url_for('evento_create') }}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            Criar Primeiro Evento
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
