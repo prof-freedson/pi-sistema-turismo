@@ -1,120 +1,78 @@
--- Criar banco de dados
-CREATE DATABASE IF NOT EXISTS encantos_db;
-USE encantos_db;
+-- Banco de dados para o projeto Encantos da Ilha
+-- Sistema de eventos e restaurantes do Maranhão
 
--- add Tabela Endereço
-CREATE TABLE endereco (
-    id_end INT AUTO_INCREMENT PRIMARY KEY,
-    rua VARCHAR(100),
-    numero VARCHAR(10),
-    bairro VARCHAR(50),
-    cidade VARCHAR(50),
-    estado CHAR(2)
+CREATE DATABASE IF NOT EXISTS encantos_da_ilha;
+USE encantos_da_ilha;
+
+-- Tabela de Administradores
+CREATE TABLE administradores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- add Tabela Telefone
-CREATE TABLE telefone (
-	id_tel INT AUTO_INCREMENT PRIMARY KEY,
-    fone_1 VARCHAR(20),
-    fone_2 VARCHAR(20)
-);
-
--- Tabela de usuários
+-- Tabela de Usuários
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(100) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
-    tipo ENUM('admin', 'comum') DEFAULT 'comum',
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabela de categorias (para eventos e restaurantes)
-
-CREATE TABLE categorias (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL UNIQUE,
-    descricao TEXT
-);
-
--- Tabela de eventos
-
+-- Tabela de Eventos
 CREATE TABLE eventos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
+    nome_evento VARCHAR(200) NOT NULL,
+    tipo ENUM('Show', 'Evento', 'Festival', 'Teatro', 'Exposição') NOT NULL,
     descricao TEXT,
-    categoria_id INT,
-    data_inicio DATE,
-    data_fim DATE,
-    horario TIME,
-    local VARCHAR(255),
-    id_end INT,
+    data_inicio DATE NOT NULL,
+    data_fim DATE NOT NULL,
+    horario TIME NOT NULL,
+    local VARCHAR(200) NOT NULL,
+    endereco TEXT NOT NULL,
     preco DECIMAL(10,2),
     capacidade INT,
-    organizador VARCHAR(255),
+    organizador VARCHAR(100),
     contato VARCHAR(100),
-    imagem TEXT,
-    criado_por INT,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (categoria_id) REFERENCES categorias(id),
-    FOREIGN KEY (criado_por) REFERENCES usuarios(id),
-    FOREIGN KEY (id_end) REFERENCES endereco(id_end)
+    url_imagem VARCHAR(500),
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Tabela de restaurantes
+-- Tabela de Restaurantes
 CREATE TABLE restaurantes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
+    nome_restaurante VARCHAR(200) NOT NULL,
+    tipo_culinaria ENUM('Brasileira', 'Maranhense', 'Italiana', 'Japonesa', 'Mexicana', 'Francesa') NOT NULL,
     descricao TEXT,
-    tipo_cozinha ENUM('Brasileira','Maranhense','Italiana','Japonesa','Mexicana','Francesa') NOT NULL,
-    id_end INT,
-    id_tel INT,
+    endereco TEXT NOT NULL,
+    bairro VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20),
     horario_funcionamento VARCHAR(100),
-    faixa_preco ENUM('R$', 'R$$', 'R$$$', 'R$$$$'),
+    faixa_preco ENUM('$ - Economico', '$$ - Moderado', '$$$ - Caro', '$$$$ - Muito Caro') NOT NULL,
     capacidade INT,
-    avaliacao INT CHECK (avaliacao BETWEEN 1 AND 5),
-    imagem TEXT,
-    reservas BOOLEAN,
-    delivery BOOLEAN,
-    estacionamento BOOLEAN,
-    criado_por INT,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (criado_por) REFERENCES usuarios(id),
-    FOREIGN KEY (id_end) REFERENCES endereco(id_end),
-    FOREIGN KEY (id_tel) REFERENCES telefone(id_tel)
+    url_imagem VARCHAR(500),
+    aceita_reservas BOOLEAN DEFAULT FALSE,
+    tem_delivery BOOLEAN DEFAULT FALSE,
+    tem_estacionamento BOOLEAN DEFAULT FALSE,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Tabela de comentários (para eventos e restaurantes)
-CREATE TABLE comentarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_id INT NOT NULL,
-    tipo_destino ENUM('evento', 'restaurante') NOT NULL,
-    destino_id INT NOT NULL,
-    conteudo TEXT NOT NULL,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
-);
+-- Inserir dados de exemplo para administrador
+INSERT INTO administradores (nome, email, senha) VALUES 
+('Administrador', 'admin@encantosdailha.com', 'admin123');
 
--- Tabela de tags
-CREATE TABLE tags (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL UNIQUE
-);
+-- Inserir dados de exemplo para eventos
+INSERT INTO eventos (nome_evento, tipo, descricao, data_inicio, data_fim, horario, local, endereco, preco, capacidade, organizador, contato, url_imagem) VALUES 
+('Festival de Inverno de São Luís', 'Festival', 'Grande festival de música e cultura maranhense', '2025-08-15', '2025-08-17', '19:00:00', 'Centro Histórico', 'Praça Benedito Leite, Centro, São Luís - MA', 0.00, 5000, 'Prefeitura de São Luís', '(98) 3214-5678', 'https://example.com/festival.jpg'),
+('Show de Bumba Meu Boi', 'Show', 'Apresentação tradicional do Bumba Meu Boi', '2025-08-20', '2025-08-20', '20:00:00', 'Teatro Arthur Azevedo', 'Rua do Sol, 180, Centro, São Luís - MA', 25.00, 800, 'Grupo Boi da Maioba', '(98) 99876-5432', 'https://example.com/bumba.jpg');
 
--- Relacionamento entre eventos e tags
-CREATE TABLE eventos_tags (
-    evento_id INT NOT NULL,
-    tag_id INT NOT NULL,
-    PRIMARY KEY (evento_id, tag_id),
-    FOREIGN KEY (evento_id) REFERENCES eventos(id),
-    FOREIGN KEY (tag_id) REFERENCES tags(id)
-);
+-- Inserir dados de exemplo para restaurantes
+INSERT INTO restaurantes (nome_restaurante, tipo_culinaria, descricao, endereco, bairro, telefone, horario_funcionamento, faixa_preco, capacidade, url_imagem, aceita_reservas, tem_delivery, tem_estacionamento) VALUES 
+('Restaurante do Porto', 'Maranhense', 'Especializado em frutos do mar e pratos típicos maranhenses', 'Av. Litorânea, 123', 'Ponta da Areia', '(98) 3235-1234', '11:00 às 23:00', '$$ - Moderado', 120, 'https://example.com/porto.jpg', TRUE, TRUE, TRUE),
+('Cantina Italiana', 'Italiana', 'Autêntica culinária italiana no coração de São Luís', 'Rua Grande, 456', 'Centro', '(98) 3232-5678', '18:00 às 00:00', '$$$ - Caro', 80, 'https://example.com/italiana.jpg', TRUE, FALSE, FALSE);
 
--- Relacionamento entre restaurantes e tags
-CREATE TABLE restaurantes_tags (
-    restaurante_id INT NOT NULL,
-    tag_id INT NOT NULL,
-    PRIMARY KEY (restaurante_id, tag_id),
-    FOREIGN KEY (restaurante_id) REFERENCES restaurantes(id),
-    FOREIGN KEY (tag_id) REFERENCES tags(id)
-);
