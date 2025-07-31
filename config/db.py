@@ -1,3 +1,4 @@
+#atualização da configuração do banco de dados
 import mysql.connector
 from mysql.connector import Error
 
