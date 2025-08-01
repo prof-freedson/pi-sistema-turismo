@@ -1,69 +1,338 @@
- /* CSS para o sistema de turismo */
- /* comentário */
-    body {
-      font-family: 'Segoe UI', sans-serif;
-    }
+/* Cores da Bandeira do Maranhão */
+:root {
+    --maranhao-red: #DC143C;
+    --maranhao-blue: #0047AB;
+    --maranhao-white: #FFFFFF;
+    --maranhao-yellow: #FFD700;
+    --maranhao-green: #228B22;
+    --maranhao-light-blue: #87CEEB;
+    --maranhao-dark: #2C3E50;
+    --maranhao-light: #ECF0F1;
+}
 
+/* Estilos gerais */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--maranhao-light);
+}
+
+/* Cores personalizadas do Maranhão */
+.bg-maranhao {
+    background: linear-gradient(135deg, var(--maranhao-red) 0%, var(--maranhao-blue) 100%);
+}
+
+.text-maranhao {
+    color: var(--maranhao-red);
+}
+
+.btn-maranhao {
+    background-color: var(--maranhao-red);
+    border-color: var(--maranhao-red);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-maranhao:hover {
+    background-color: var(--maranhao-blue);
+    border-color: var(--maranhao-blue);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    background: linear-gradient(180deg, var(--maranhao-red) 0%, var(--maranhao-blue) 100%);
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 2px 8px;
+    padding: 12px 16px;
+}
+
+.sidebar .nav-link:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.sidebar .nav-link.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+.sidebar .nav-link i {
+    font-size: 1.1em;
+}
+
+/* Cards personalizados */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--maranhao-light-blue) 0%, var(--maranhao-blue) 100%);
+    color: white;
+    border-radius: 12px 12px 0 0 !important;
+    border: none;
+}
+
+/* Botões personalizados */
+.btn {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background-color: var(--maranhao-blue);
+    border-color: var(--maranhao-blue);
+}
+
+.btn-primary:hover {
+    background-color: var(--maranhao-red);
+    border-color: var(--maranhao-red);
+}
+
+.btn-success {
+    background-color: var(--maranhao-green);
+    border-color: var(--maranhao-green);
+}
+
+.btn-success:hover {
+    background-color: #1e7e1e;
+    border-color: #1e7e1e;
+}
+
+.btn-warning {
+    background-color: var(--maranhao-yellow);
+    border-color: var(--maranhao-yellow);
+    color: var(--maranhao-dark);
+}
+
+.btn-warning:hover {
+    background-color: #e6c200;
+    border-color: #e6c200;
+    color: var(--maranhao-dark);
+}
+
+/* Formulários */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--maranhao-blue);
+    box-shadow: 0 0 0 0.2rem rgba(0, 71, 171, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--maranhao-dark);
+}
+
+/* Badges personalizados */
+.badge {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.badge.bg-primary {
+    background-color: var(--maranhao-blue) !important;
+}
+
+.badge.bg-success {
+    background-color: var(--maranhao-green) !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--maranhao-yellow) !important;
+    color: var(--maranhao-dark) !important;
+}
+
+.badge.bg-info {
+    background-color: var(--maranhao-light-blue) !important;
+    color: var(--maranhao-dark) !important;
+}
+
+/* Tabelas */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: var(--maranhao-blue);
+    color: white;
+    border: none;
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(0, 71, 171, 0.05);
+}
+
+/* Alertas */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, var(--maranhao-light-blue) 0%, rgba(135, 206, 235, 0.3) 100%);
+    color: var(--maranhao-dark);
+}
+
+/* Animações */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card, .alert {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
     .sidebar {
-      width: 240px;
-      background: linear-gradient(to bottom,rgb(253, 143, 30), rgb(0, 181, 73));
-      min-height: 100vh;
-      color: white;
+        position: relative;
+        height: auto;
+        padding: 0;
     }
-
-    .sidebar a {
-      color: white;
-      text-decoration: none;
+    
+    .sidebar .nav-link {
+        margin: 1px 4px;
+        padding: 8px 12px;
     }
-
-    .sidebar h2 {
-      font-size: 24px;
+    
+    main {
+        margin-left: 0 !important;
     }
-
-    .sidebar span {
-      font-size: 14px;
-    }
-
-    .restaurant-list ul {
-      padding-left: 0;
-    }
-
-    .restaurant-list li {
-      list-style: none;
-      padding: 10px 0;
-    }
-
-.carousel-inner img {
-  width: 100%;
-  height: 700px;           /* Altura desejada */
-  object-fit: cover;       /* Preenche o slide sem distorcer */
-  object-position: center; /* Centraliza o corte */
 }
 
-/* Estátisticas */
-.card-eventos {
-  background-color: rgb(0, 181, 73);
-  color: white;
+/* Efeitos de hover para cards de eventos e restaurantes */
+.card-img-top {
+    transition: all 0.3s ease;
 }
 
-.card-restaurantes {
-  background-color: rgb(253, 143, 30); 
-  color: white;
+.card:hover .card-img-top {
+    transform: scale(1.05);
 }
 
-.card-hoje {
-  background-color: rgb(32, 65, 128); /* amarelo */
-  color: white; /* texto escuro */
+/* Estilo para o login */
+.vh-100 {
+    min-height: 100vh;
 }
 
-.card-locais {
-  background-color: rgb(216, 26, 33); /* cinza */
-  color: white;
+/* Customização do input group */
+.input-group-text {
+    background-color: var(--maranhao-light);
+    border-color: #e9ecef;
+    color: var(--maranhao-blue);
 }
 
-/* Card restaurantes */
-.card-restaurantes-2{
-  background-color:rgb(216, 26, 33);
-  color: rgb(255, 255, 255);
-  
+/* Efeitos de transição suaves */
+* {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
+
+/* Estilo para elementos ativos no sidebar */
+.sidebar .nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 60%;
+    background-color: var(--maranhao-yellow);
+    border-radius: 0 4px 4px 0;
+}
+
+/* Melhorias visuais para botões de ação */
+.btn-group .btn {
+    border-radius: 0;
+}
+
+.btn-group .btn:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.btn-group .btn:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.btn-group .btn:only-child {
+    border-radius: 8px;
+}
+
+/* Estilo para checkboxes */
+.form-check-input:checked {
+    background-color: var(--maranhao-blue);
+    border-color: var(--maranhao-blue);
+}
+
+/* Melhorias para o header das páginas */
+.border-bottom {
+    border-color: var(--maranhao-light-blue) !important;
+    border-width: 2px !important;
+}
+
+/* Estilo para elementos de estatísticas no dashboard */
+.card.bg-primary, .card.bg-success, .card.bg-warning, .card.bg-info {
+    background: linear-gradient(135deg, var(--color-start) 0%, var(--color-end) 100%);
+}
+
+.card.bg-primary {
+    --color-start: var(--maranhao-blue);
+    --color-end: var(--maranhao-light-blue);
+}
+
+.card.bg-success {
+    --color-start: var(--maranhao-green);
+    --color-end: #32cd32;
+}
+
+.card.bg-warning {
+    --color-start: var(--maranhao-yellow);
+    --color-end: #ffa500;
+}
+
+.card.bg-info {
+    --color-start: var(--maranhao-light-blue);
+    --color-end: #add8e6;
+}
+

@@ -8,9 +8,16 @@ from controllers.evento_controller import EventoController
 from controllers.restaurante_controller import RestauranteController
 from controllers.dashboard_controller import DashboardController
 from controllers.auth_controller import AuthController
+from flask import Flask
 
-app = Flask(__name__)
+
+app = Flask(__name__)  # ← Precisa vir antes da configuração
+
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'img')
 app.secret_key = 'encantos_da_ilha_secret_key_2025'
+
+# Configuração de extensões permitidas para upload de imagem
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 
 # Configurar CORS para permitir requisições de qualquer origem
 CORS(app)
