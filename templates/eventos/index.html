@@ -71,6 +71,8 @@
                     <h5 class="card-title">{{ evento.nome_evento }}</h5>
                     <p class="card-text">
                         <span class="badge bg-primary mb-2">{{ evento.tipo }}</span><br>
+
+                        {# Exibe as datas de início e fim, formatadas #}
                         <small class="text-muted">
                             <i class="bi bi-calendar me-1"></i>
                             {{ evento.data_inicio.strftime('%d/%m/%Y') if evento.data_inicio else '' }}
@@ -78,10 +80,17 @@
                                 - {{ evento.data_fim.strftime('%d/%m/%Y') }}
                             {% endif %}
                         </small><br>
+
+                        {# Exibe o horário formatado com segurança, ou mensagem padrão #}
                         <small class="text-muted">
                             <i class="bi bi-clock me-1"></i>
-                            {{ evento.horario.strftime('%H:%M') if evento.horario else '' }}
+                            {% if evento.horario and evento.horario.__class__.__name__ == 'time' %}
+                                {{ evento.horario.strftime('%H:%M') }}
+                            {% else %}
+                                Horário indefinido
+                            {% endif %}
                         </small><br>
+
                         <small class="text-muted">
                             <i class="bi bi-geo-alt me-1"></i>
                             {{ evento.local }}
@@ -89,7 +98,9 @@
                     </p>
                     
                     {% if evento.descricao %}
-                    <p class="card-text">{{ evento.descricao[:100] }}{% if evento.descricao|length > 100 %}...{% endif %}</p>
+                    <p class="card-text">
+                        {{ evento.descricao[:100] }}{% if evento.descricao|length > 100 %}...{% endif %}
+                    </p>
                     {% endif %}
                     
                     {% if evento.preco %}
@@ -133,4 +144,3 @@
     {% endif %}
 </div>
 {% endblock %}
-

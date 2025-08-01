@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">{{ restaurante.nome_restaurante }}</h2>
+
+    <div class="card shadow-sm mb-4">
+        <img src="{{ restaurante.url_imagem }}" class="card-img-top" alt="Imagem do restaurante">
+        <div class="card-body">
+            <p class="card-text"><strong>Descrição:</strong> {{ restaurante.descricao }}</p>
+            <p class="card-text"><strong>Tipo de culinária:</strong> {{ restaurante.tipo_culinaria }}</p>
+            <p class="card-text"><strong>Faixa de preço:</strong> {{ restaurante.faixa_preco }}</p>
+            <p class="card-text"><strong>Endereço:</strong> {{ restaurante.endereco }}</p>
+            <p class="card-text"><strong>Bairro:</strong> {{ restaurante.bairro }}</p>
+            <p class="card-text"><strong>Telefone:</strong> {{ restaurante.telefone }}</p>
+            <p class="card-text"><strong>Horário de funcionamento:</strong> {{ restaurante.horario_funcionamento }}</p>
+            
+            <ul class="list-group list-group-flush mt-3">
+                <li class="list-group-item">
+                    <strong>Reservas:</strong> 
+                    {% if restaurante.aceita_reservas %}✅ Sim{% else %}❌ Não{% endif %}
+                </li>
+                <li class="list-group-item">
+                    <strong>Delivery:</strong> 
+                    {% if restaurante.tem_delivery %}✅ Sim{% else %}❌ Não{% endif %}
+                </li>
+                <li class="list-group-item">
+                    <strong>Estacionamento:</strong> 
+                    {% if restaurante.tem_estacionamento %}✅ Sim{% else %}❌ Não{% endif %}
+                </li>
+            </ul>
+
+            <a href="{{ url_for('restaurantes') }}" class="btn btn-outline-primary mt-4">⬅ Voltar para lista</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
