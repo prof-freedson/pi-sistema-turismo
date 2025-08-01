@@ -15,7 +15,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ url_for('restaurante_update', restaurante_id=restaurante.id) }}">
+                <form method="POST" action="{{ url_for('restaurante_update', restaurante_id=restaurante.id) }}" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-8 mb-3">
                             <label for="nome_restaurante" class="form-label">Nome do Restaurante *</label>
@@ -74,7 +74,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="capacidade" class="form-label">Capacidade</label>
@@ -82,13 +82,17 @@
                                    value="{{ restaurante.capacidade if restaurante.capacidade else '' }}">
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="url_imagem" class="form-label">URL da Imagem</label>
-                            <input type="url" class="form-control" id="url_imagem" name="url_imagem"
-                                   value="{{ restaurante.url_imagem or '' }}">
+                            <label class="form-label">Imagem atual</label><br>
+                            {% if restaurante.url_imagem %}
+                                <img src="{{ restaurante.url_imagem }}" alt="Imagem do restaurante" style="max-height:180px; border-radius:5px;">
+                            {% else %}
+                                <p class="text-muted">Nenhuma imagem cadastrada.</p>
+                            {% endif %}
+                            <label for="imagem" class="form-label mt-2">Substituir Imagem</label>
+                            <input type="file" class="form-control" id="imagem" name="imagem" accept=".jpg,.jpeg,.png,.gif">
                         </div>
                     </div>
                     
-                    <!-- Características -->
                     <div class="mb-3">
                         <label class="form-label">Características</label>
                         <div class="row">
@@ -152,6 +156,11 @@ document.getElementById('telefone').addEventListener('input', function(e) {
         e.target.value = value;
     }
 });
+
+// Mostrar nome do arquivo selecionado
+document.getElementById('imagem').addEventListener('change', function(e) {
+    const nomeArquivo = e.target.files[0]?.name || 'Nenhum arquivo selecionado';
+    alert("Imagem selecionada: " + nomeArquivo);
+});
 </script>
 {% endblock %}
-

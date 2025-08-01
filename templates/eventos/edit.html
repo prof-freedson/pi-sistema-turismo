@@ -15,7 +15,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ url_for('evento_update', evento_id=evento.id) }}">
+                <form method="POST" enctype="multipart/form-data" action="{{ url_for('evento_update', evento_id=evento.id) }}">
                     <div class="row">
                         <div class="col-md-8 mb-3">
                             <label for="nome_evento" class="form-label">Nome do Evento *</label>
@@ -51,8 +51,11 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="horario" class="form-label">Horário *</label>
+                            {% set segundos = evento.horario.total_seconds() if evento.horario else 0 %}
+                            {% set horas = segundos // 3600 %}
+                            {% set minutos = (segundos % 3600) // 60 %}
                             <input type="time" class="form-control" id="horario" name="horario" 
-                                   value="{{ evento.horario.strftime('%H:%M') if evento.horario else '' }}" required>
+                                   value="{{ '%02d:%02d' | format(horas|int, minutos|int) if evento.horario else '' }}" required>
                         </div>
                     </div>
                     
@@ -73,7 +76,13 @@
                         <div class="col-md-4 mb-3">
                             <label for="preco" class="form-label">Preço (R$)</label>
                             <input type="number" class="form-control" id="preco" name="preco" step="0.01" min="0"
-                                   value="{{ evento.preco if evento.preco else '' }}">
+                                   value="{{ evento.preco if evento.preco else '' }}" 
+                                   {{ 'disabled' if evento.preco == 0 }}>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="gratuito" name="gratuito"
+                                       {% if evento.preco == 0 %}checked{% endif %}>
+                                <label class="form-check-label" for="gratuito">Evento gratuito</label>
+                            </div>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="capacidade" class="form-label">Capacidade</label>
@@ -99,6 +108,14 @@
                                    value="{{ evento.url_imagem or '' }}">
                         </div>
                     </div>
+
+                    <!-- 📸 Campo de upload de imagem -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="imagem_evento" class="form-label">Adicionar Foto</label>
+                            <input type="file" class="form-control" id="imagem_evento" name="imagem_evento" accept="image/*">
+                        </div>
+                    </div>
                     
                     <div class="d-flex justify-content-between">
                         <a href="{{ url_for('eventos') }}" class="btn btn-secondary">
@@ -119,7 +136,6 @@
 
 {% block extra_scripts %}
 <script>
-// Validação para garantir que data fim não seja anterior à data início
 document.getElementById('data_inicio').addEventListener('change', function() {
     document.getElementById('data_fim').min = this.value;
 });
@@ -131,6 +147,13 @@ document.getElementById('data_fim').addEventListener('change', function() {
         this.value = dataInicio;
     }
 });
+
+document.getElementById('gratuito').addEventListener('change', function() {
+    const precoInput = document.getElementById('preco');
+    precoInput.disabled = this.checked;
+    if (this.checked) {
+        precoInput.value = '';
+    }
+});
 </script>
 {% endblock %}
-

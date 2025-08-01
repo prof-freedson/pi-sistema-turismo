@@ -10,7 +10,7 @@ def get_db_connection():
             host='localhost',
             database='encantos_da_ilha',
             user='root',
-            password='',
+            password='senac123456789',
             charset='utf8mb4',
             collation='utf8mb4_unicode_ci'
         )
