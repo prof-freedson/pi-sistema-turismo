@@ -1,5 +1,10 @@
 import mysql.connector
 from mysql.connector import Error
+from dotenv import load_dotenv
+import os
+
+# Carrega variáveis de ambiente do arquivo .env
+load_dotenv()
 
 def get_db_connection():
     """
@@ -7,10 +12,10 @@ def get_db_connection():
     """
     try:
         connection = mysql.connector.connect(
-            host='localhost',
-            database='encantos_da_ilha',
-            user='root',
-            password='senac123456789',
+            host=os.getenv('DB_HOST'),
+            database=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
             charset='utf8mb4',
             collation='utf8mb4_unicode_ci'
         )
@@ -26,20 +31,17 @@ def execute_query(query, params=None):
     connection = get_db_connection()
     if connection is None:
         return None
-    
+
     try:
         cursor = connection.cursor(dictionary=True)
-        if params:
-            cursor.execute(query, params)
-        else:
-            cursor.execute(query)
-        
+        cursor.execute(query, params) if params else cursor.execute(query)
+
         if query.strip().upper().startswith('SELECT'):
             result = cursor.fetchall()
         else:
             connection.commit()
             result = cursor.rowcount
-        
+
         return result
     except Error as e:
         print(f"Erro ao executar query: {e}")
@@ -56,16 +58,12 @@ def execute_query_one(query, params=None):
     connection = get_db_connection()
     if connection is None:
         return None
-    
+
     try:
         cursor = connection.cursor(dictionary=True)
-        if params:
-            cursor.execute(query, params)
-        else:
-            cursor.execute(query)
-        
-        result = cursor.fetchone()
-        return result
+        cursor.execute(query, params) if params else cursor.execute(query)
+
+        return cursor.fetchone()
     except Error as e:
         print(f"Erro ao executar query: {e}")
         return None
