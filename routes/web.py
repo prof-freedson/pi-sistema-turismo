@@ -1,12 +1,21 @@
-from app import app, evento_controller, restaurante_controller, dashboard_controller, auth_controller
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from flask import request, flash, redirect, url_for, render_template, current_app 
+from app import app, evento_controller, restaurante_controller, dashboard_controller, auth_controller, geochat_controller
+from controllers.evento_controller import EventoController
+from controllers.geochat_controller import GeoChatController
 
-# Rota principal - Dashboard
+# Inicialização do controller do chatbot
+geochat_controller = GeoChatController()
+
+# ===== Rotas Principais =====
 @app.route('/')
 @app.route('/dashboard')
 def dashboard():
     return dashboard_controller.index()
 
-# Rotas de Autenticação
+# ===== Rotas de Autenticação =====
 @app.route('/login', methods=['GET'])
 def login_form():
     return auth_controller.login_form()
@@ -35,7 +44,7 @@ def register_admin_form():
 def register_admin():
     return auth_controller.register_admin()
 
-# Rotas de Eventos
+# ===== Rotas de Eventos =====
 @app.route('/eventos')
 def eventos():
     return evento_controller.index()
@@ -64,7 +73,7 @@ def evento_update(evento_id):
 def evento_delete(evento_id):
     return evento_controller.delete(evento_id)
 
-# Rotas de Restaurantes
+# ===== Rotas de Restaurantes =====
 @app.route('/restaurantes')
 def restaurantes():
     return restaurante_controller.index()
@@ -93,3 +102,11 @@ def restaurante_update(restaurante_id):
 def restaurante_delete(restaurante_id):
     return restaurante_controller.delete(restaurante_id)
 
+# ===== Rotas do Chatbot =====
+@app.route('/chat')
+def chat_page():
+    return geochat_controller.chat_page()
+
+@app.route('/api/chat', methods=['POST'])
+def handle_chat():
+    return geochat_controller.handle_chat()

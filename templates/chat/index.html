@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Assistente Turístico - Encantos da Ilha{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link href="{{ url_for('static', filename='css/chat.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5><i class="bi bi-geo-alt me-2"></i>Assistente Turístico de São Luís</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="map-container" class="mb-3"></div>
+                    
+                    <div id="chat-container">
+                        <div class="alert alert-secondary">
+                            <strong>Assistente:</strong> Olá! Sou seu guia turístico de São Luís. Pergunte sobre eventos, restaurantes ou pontos turísticos.
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="user-input" placeholder="Onde posso comer comida típica? Quais eventos acontecem hoje?">
+                        <button class="btn btn-primary" id="send-btn">
+                            <i class="bi bi-send"></i> Enviar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h6><i class="bi bi-star me-1"></i>Locais Recomendados</h6>
+                        </div>
+                        <div class="card-body" style="height: 500px; overflow-y: auto;">
+                            <div id="places-container">
+                                <p class="text-muted">Os locais recomendados aparecerão aqui após sua pergunta.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-3">
+                        <div class="card-header bg-success text-white">
+                            <h6><i class="bi bi-image me-1"></i>Imagens do Local</h6>
+                        </div>
+                        <div class="card-body" style="height: 200px; overflow-y: auto;">
+                            <div id="images-container">
+                                <p class="text-muted">As imagens do local aparecerão aqui.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}
