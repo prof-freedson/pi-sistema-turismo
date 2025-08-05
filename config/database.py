@@ -1,11 +1,13 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
-import os
 
 # Carrega variáveis de ambiente do arquivo .env
 load_dotenv()
-
+port=os.getenv('DB_PORT', 3306)  # Padrão para MySQL é 3306, mas pode ser alterado
 def get_db_connection():
     """
     Estabelece conexão com o banco de dados MySQL
@@ -16,6 +18,7 @@ def get_db_connection():
             database=os.getenv('DB_NAME'),
             user=os.getenv('DB_USER'),
             password=os.getenv('DB_PASSWORD'),
+            port=port,
             charset='utf8mb4',
             collation='utf8mb4_unicode_ci'
         )
