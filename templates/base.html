@@ -45,6 +45,12 @@
                                 Restaurantes
                             </a>
                         </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {% if request.endpoint == 'chat_page' %}active{% endif %}" href="{{ url_for('chat_page') }}">
+                            <i class="bi bi-robot me-2"></i>
+                            Assistente Virtual
+                        </a>
+                    </li>
                     </ul>
                     
                     <hr class="text-white">

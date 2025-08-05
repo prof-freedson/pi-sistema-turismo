@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Chatbot Turístico - Encantos da Ilha{% endblock %}
+
+{% block page_title %}Chatbot Turístico{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-maranhao text-white">
+                <h4 class="mb-0">Converse com o Chatbot</h4>
+            </div>
+            <div class="card-body">
+                <div class="messages mb-3" id="messages" style="min-height:180px;"></div>
+                <form id="chat-form" class="d-flex gap-2">
+                    <input type="text" id="user-input" class="form-control" placeholder="Digite sua pergunta..." required autocomplete="off" />
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('user-input');
+    const messages = document.getElementById('messages');
+
+    function addMessage(text, sender) {
+        const div = document.createElement('div');
+        div.className = sender === 'user' ? 'text-end text-primary mb-2' : 'text-start text-dark mb-2';
+        div.textContent = text;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const question = input.value.trim();
+        if (!question) return;
+        addMessage(question, 'user');
+        input.value = '';
+        addMessage('...', 'bot');
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question })
+            });
+            const data = await response.json();
+            messages.lastChild.textContent = data.answer || 'Erro ao responder.';
+        } catch {
+            messages.lastChild.textContent = 'Erro ao conectar ao chatbot.';
+        }
+    });
+</script>
+{% endblock %}
