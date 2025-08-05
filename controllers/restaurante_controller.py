@@ -7,7 +7,16 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 class RestauranteController:
-    
+
+    def listar_publicos(self):
+        """Retorna uma lista simples de restaurantes para exibição pública"""
+        try:
+            restaurantes = Restaurante.get_all()
+            return restaurantes
+        except Exception as e:
+            flash(f'Erro ao carregar restaurantes públicos: {str(e)}', 'error')
+            return []
+
     def index(self):
         try:
             busca = request.args.get('busca', '')
@@ -36,7 +45,7 @@ class RestauranteController:
         except Exception as e:
             flash(f'Erro ao carregar restaurantes: {str(e)}', 'error')
             return render_template('restaurantes/index.html', restaurantes=[])
-    
+
     def show(self, restaurante_id):
         try:
             restaurante = Restaurante.get_by_id(restaurante_id)
@@ -47,14 +56,14 @@ class RestauranteController:
         except Exception as e:
             flash(f'Erro ao carregar restaurante: {str(e)}', 'error')
             return redirect(url_for('restaurantes'))
-    
+
     def create(self):
         tipos_culinaria = ['Brasileira', 'Maranhense', 'Italiana', 'Japonesa', 'Mexicana', 'Francesa']
         faixas_preco = ['$ - Economico', '$$ - Moderado', '$$$ - Caro', '$$$$ - Muito Caro']
         return render_template('restaurantes/create.html', 
                                tipos_culinaria=tipos_culinaria,
                                faixas_preco=faixas_preco)
-    
+
     def store(self):
         try:
             restaurante_data = {
@@ -101,14 +110,14 @@ class RestauranteController:
         except Exception as e:
             flash(f'Erro ao criar restaurante: {str(e)}', 'error')
             return redirect(url_for('restaurante_create'))
-    
+
     def edit(self, restaurante_id):
         try:
             restaurante = Restaurante.get_by_id(restaurante_id)
             if not restaurante:
                 flash('Restaurante não encontrado', 'error')
                 return redirect(url_for('restaurantes'))
-            
+
             tipos_culinaria = ['Brasileira', 'Maranhense', 'Italiana', 'Japonesa', 'Mexicana', 'Francesa']
             faixas_preco = ['$ - Economico', '$$ - Moderado', '$$$ - Caro', '$$$$ - Muito Caro']
             return render_template('restaurantes/edit.html', 
@@ -118,7 +127,7 @@ class RestauranteController:
         except Exception as e:
             flash(f'Erro ao carregar restaurante: {str(e)}', 'error')
             return redirect(url_for('restaurantes'))
-    
+
     def update(self, restaurante_id):
         try:
             restaurante_data = {
@@ -142,9 +151,6 @@ class RestauranteController:
                 filename = secure_filename(imagem.filename)
                 caminho = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 imagem.save(caminho)
-                print(f"Imagem salva em: {caminho}")
-                print(f"Existe? {os.path.exists(caminho)}")
-
                 restaurante_data['url_imagem'] = '/' + os.path.join('static', 'img', filename).replace('\\', '/')
             else:
                 restaurante_data['url_imagem'] = Restaurante.get_by_id(restaurante_id).url_imagem
@@ -164,7 +170,7 @@ class RestauranteController:
         except Exception as e:
             flash(f'Erro ao atualizar restaurante: {str(e)}', 'error')
             return redirect(url_for('restaurante_edit', restaurante_id=restaurante_id))
-    
+
     def delete(self, restaurante_id):
         try:
             result = Restaurante.delete(restaurante_id)
@@ -174,5 +180,5 @@ class RestauranteController:
                 flash('Erro ao deletar restaurante', 'error')
         except Exception as e:
             flash(f'Erro ao deletar restaurante: {str(e)}', 'error')
-        
+
         return redirect(url_for('restaurantes'))

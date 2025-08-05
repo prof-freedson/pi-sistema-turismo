@@ -4,11 +4,19 @@ from models.evento import Evento
 from datetime import datetime
 import os
 
-
 class EventoController:
 
+    def listar_publicos(self):
+        """Retorna uma lista simples de eventos para exibição pública"""
+        try:
+            eventos = Evento.get_all()
+            return eventos
+        except Exception as e:
+            flash(f"Erro ao carregar eventos públicos: {str(e)}", "error")
+            return []
+
     def index(self):
-        """Lista todos os eventos"""
+        """Lista todos os eventos com filtro opcional"""
         try:
             busca = request.args.get('busca', '')
             tipo_filtro = request.args.get('tipo', 'Todos')
@@ -35,7 +43,6 @@ class EventoController:
             return render_template('eventos/index.html', eventos=[])
 
     def create(self):
-        """Exibe o formulário de criação de novo evento"""
         try:
             tipos = ['Show', 'Evento', 'Festival', 'Teatro', 'Exposição']
             return render_template('eventos/create.html', tipos=tipos)
@@ -44,7 +51,6 @@ class EventoController:
             return redirect(url_for('eventos'))
 
     def store(self):
-        """Salva novo evento enviado pelo formulário"""
         try:
             data_inicio_raw = request.form.get('data_inicio')
             data_fim_raw = request.form.get('data_fim')
@@ -78,7 +84,7 @@ class EventoController:
                     imagem.save(caminho)
                     evento_data['url_imagem'] = f"/{caminho.replace(os.path.sep, '/')}"
                 else:
-                    flash('Formato de imagem não permitido. Use PNG, JPG, JPEG ou GIF.', 'error')
+                    flash('Formato de imagem não permitido.', 'error')
                     return redirect(url_for('evento_create'))
 
             if not evento_data['nome_evento']:
@@ -87,7 +93,7 @@ class EventoController:
 
             if evento_data['data_inicio'] and evento_data['data_fim']:
                 if evento_data['data_inicio'] > evento_data['data_fim']:
-                    flash('A data de início não pode ser posterior à data de fim.', 'error')
+                    flash('Data de início não pode ser maior que a data de fim.', 'error')
                     return redirect(url_for('evento_create'))
 
             result = Evento.create(evento_data)
@@ -103,7 +109,6 @@ class EventoController:
             return redirect(url_for('evento_create'))
 
     def edit(self, evento_id):
-        """Carrega dados do evento para edição"""
         try:
             evento = Evento.get_by_id(evento_id)
             if not evento:
@@ -118,7 +123,6 @@ class EventoController:
             return redirect(url_for('eventos'))
 
     def update(self, evento_id):
-        """Atualiza um evento com suporte a upload de imagem"""
         try:
             data_inicio_raw = request.form.get('data_inicio')
             data_fim_raw = request.form.get('data_fim')
@@ -152,7 +156,7 @@ class EventoController:
                     imagem.save(caminho)
                     evento_data['url_imagem'] = f"/{caminho.replace(os.path.sep, '/')}"
                 else:
-                    flash('Formato de imagem não permitido. Use PNG, JPG, JPEG ou GIF.', 'error')
+                    flash('Formato de imagem não permitido.', 'error')
                     return redirect(url_for('evento_edit', evento_id=evento_id))
 
             if not evento_data['nome_evento']:
@@ -161,7 +165,7 @@ class EventoController:
 
             if evento_data['data_inicio'] and evento_data['data_fim']:
                 if evento_data['data_inicio'] > evento_data['data_fim']:
-                    flash('A data de início não pode ser posterior à data de fim.', 'error')
+                    flash('Data de início não pode ser maior que a data de fim.', 'error')
                     return redirect(url_for('evento_edit', evento_id=evento_id))
 
             result = Evento.update(evento_id, evento_data)
@@ -177,7 +181,6 @@ class EventoController:
             return redirect(url_for('evento_edit', evento_id=evento_id))
 
     def show(self, evento_id):
-        """Exibe os detalhes de um evento específico"""
         try:
             evento = Evento.get_by_id(evento_id)
             if not evento:

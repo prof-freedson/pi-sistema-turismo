@@ -1,12 +1,21 @@
 from app import app, evento_controller, restaurante_controller, dashboard_controller, auth_controller
+from flask import render_template, request, flash
 
-# Rota principal - Dashboard
-@app.route('/')
+# 🏠 Rota principal - Página do Visitante
+@app.route('/', methods=['GET'])
+def visitante_principal():
+    eventos = evento_controller.listar_publicos()
+    restaurantes = restaurante_controller.listar_publicos()
+    return render_template('visitante.html', eventos=eventos, restaurantes=restaurantes)
+
+
+
+# 📊 Rota do Dashboard
 @app.route('/dashboard')
 def dashboard():
     return dashboard_controller.index()
 
-# Rotas de Autenticação
+# 🔐 Rotas de Autenticação
 @app.route('/login', methods=['GET'])
 def login_form():
     return auth_controller.login_form()
@@ -35,7 +44,7 @@ def register_admin_form():
 def register_admin():
     return auth_controller.register_admin()
 
-# Rotas de Eventos
+# 🎭 Rotas de Eventos
 @app.route('/eventos')
 def eventos():
     return evento_controller.index()
@@ -64,7 +73,7 @@ def evento_update(evento_id):
 def evento_delete(evento_id):
     return evento_controller.delete(evento_id)
 
-# Rotas de Restaurantes
+# 🍽️ Rotas de Restaurantes
 @app.route('/restaurantes')
 def restaurantes():
     return restaurante_controller.index()
@@ -92,4 +101,3 @@ def restaurante_update(restaurante_id):
 @app.route('/restaurantes/<int:restaurante_id>/deletar', methods=['POST'])
 def restaurante_delete(restaurante_id):
     return restaurante_controller.delete(restaurante_id)
-

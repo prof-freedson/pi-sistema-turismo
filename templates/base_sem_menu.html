@@ -1,0 +1,22 @@
+<!-- base_sem_menu.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <title>{% block title %}Encantos da Ilha{% endblock %}</title>
+  <!-- links de CSS, scripts etc -->
+</head>
+<body>
+  <!-- Logo no topo -->
+  <nav class="navbar navbar-light bg-light justify-content-center py-3">
+    <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height:40px;" class="me-2">
+      <span class="h4 mb-0">Encantos da Ilha</span>
+    </a>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <div class="container mt-4">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

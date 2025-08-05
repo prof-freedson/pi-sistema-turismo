@@ -1,0 +1,80 @@
+{% set esconder_menu = True %}
+{% extends "base.html" %}
+
+{% block title %}Encantos da Ilha - Página Inicial{% endblock %}
+
+{% block page_title %}
+<div class="d-flex align-items-center mb-4">
+  <a href="{{ url_for('dashboard') }}">
+    <img src="{{ url_for('static', filename='img/LOGO.png') }}" alt="Logo Encantos da Ilha"
+         style="height:50px;" class="me-3">
+  </a>
+  <h2 class="mb-0 text-maranhao">Bem-vindo à Encantos da Ilha</h2>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+
+  <!-- Eventos -->
+  <div class="col-md-6">
+    <h4 class="mb-3 text-maranhao"><i class="bi bi-calendar-event me-2"></i>Próximos Eventos</h4>
+    {% if eventos %}
+    <div id="carrosselEventos" class="carousel slide mb-4" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for evento in eventos %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <img src="{{ evento.url_imagem or '/static/default.jpg' }}" class="d-block w-100"
+               style="max-height:400px; object-fit:cover;" alt="{{ evento.nome_evento }}">
+          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+            <h5>{{ evento.nome_evento }}</h5>
+            <p><i class="bi bi-geo-alt-fill"></i> {{ evento.local }} | {{ evento.data_inicio.strftime('%d/%m/%Y') }}</p>
+            <a href="{{ url_for('evento_show', evento_id=evento.id) }}" class="btn btn-sm btn-maranhao">Ver detalhes</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carrosselEventos" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carrosselEventos" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+    {% else %}
+    <div class="text-muted">Nenhum evento disponível</div>
+    {% endif %}
+  </div>
+
+  <!-- Restaurantes -->
+  <div class="col-md-6">
+    <h4 class="mb-3 text-maranhao"><i class="bi bi-shop me-2"></i>Restaurantes Cadastrados</h4>
+    {% if restaurantes %}
+    <div id="carrosselRestaurantes" class="carousel slide mb-4" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for restaurante in restaurantes %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <img src="{{ restaurante.url_imagem or '/static/default.jpg' }}" class="d-block w-100"
+               style="max-height:400px; object-fit:cover;" alt="{{ restaurante.nome_restaurante }}">
+          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+            <h5>{{ restaurante.nome_restaurante }}</h5>
+            <p><i class="bi bi-geo-alt-fill"></i> {{ restaurante.endereco }} | {{ restaurante.tipo_culinaria }}</p>
+            <a href="{{ url_for('restaurante_show', restaurante_id=restaurante.id) }}" class="btn btn-sm btn-maranhao">Ver detalhes</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carrosselRestaurantes" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carrosselRestaurantes" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+    {% else %}
+    <div class="text-muted">Nenhum restaurante disponível</div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

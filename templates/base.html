@@ -17,7 +17,8 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
+            <!-- Sidebar (ocultável) -->
+            {% if not esconder_menu %}
             <nav class="col-md-3 col-lg-2 d-md-block bg-maranhao sidebar collapse">
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4">
@@ -71,9 +72,10 @@
                     </ul>
                 </div>
             </nav>
+            {% endif %}
 
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <!-- Main content ajustável -->
+            <main class="{% if esconder_menu %}col-md-12{% else %}col-md-9 ms-sm-auto col-lg-10{% endif %} px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">{% block page_title %}Dashboard{% endblock %}</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
@@ -104,4 +106,3 @@
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>
-
