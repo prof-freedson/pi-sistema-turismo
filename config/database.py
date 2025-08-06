@@ -7,18 +7,18 @@ from dotenv import load_dotenv
 
 # Carrega variáveis de ambiente do arquivo .env
 load_dotenv()
-port=os.getenv('DB_PORT', 3306)  # Padrão para MySQL é 3306, mas pode ser alterado
+
 def get_db_connection():
     """
     Estabelece conexão com o banco de dados MySQL
     """
     try:
         connection = mysql.connector.connect(
-            host=os.getenv('DB_HOST'),
-            database=os.getenv('DB_NAME'),
-            user=os.getenv('DB_USER'),
-            password=os.getenv('DB_PASSWORD'),
-            port=port,
+            host=os.getenv('DB_HOST', 'localhost'),
+            database=os.getenv('DB_NAME', 'encantos_da_ilha'),
+            user=os.getenv('DB_USER', 'novousuario'),
+            password=os.getenv('DB_PASSWORD', 'usuario123'),
+            port=int(os.getenv('DB_PORT', 3306)),
             charset='utf8mb4',
             collation='utf8mb4_unicode_ci'
         )

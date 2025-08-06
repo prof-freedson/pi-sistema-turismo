@@ -23,15 +23,17 @@ class Evento:
 
     @staticmethod
     def get_all():
-        """Retorna todos os eventos"""
+        """Retorna todos os eventos como objetos"""
         query = "SELECT * FROM eventos ORDER BY data_inicio DESC"
-        return execute_query(query)
+        resultados = execute_query(query)
+        return [Evento(**r) for r in resultados] if resultados else []
 
     @staticmethod
     def get_by_id(evento_id):
         """Retorna um evento pelo ID"""
         query = "SELECT * FROM eventos WHERE id = %s"
-        return execute_query_one(query, (evento_id,))
+        resultado = execute_query_one(query, (evento_id,))
+        return Evento(**resultado) if resultado else None
 
     @staticmethod
     def create(evento_data):
@@ -85,7 +87,8 @@ class Evento:
         ORDER BY data_inicio DESC
         """
         termo = f"%{termo_busca}%"
-        return execute_query(query, (termo, termo, termo, termo))
+        resultados = execute_query(query, (termo, termo, termo, termo))
+        return [Evento(**r) for r in resultados] if resultados else []
 
     @staticmethod
     def filter_by_type(tipo):
@@ -93,7 +96,8 @@ class Evento:
         if tipo == "Todos":
             return Evento.get_all()
         query = "SELECT * FROM eventos WHERE tipo = %s ORDER BY data_inicio DESC"
-        return execute_query(query, (tipo,))
+        resultados = execute_query(query, (tipo,))
+        return [Evento(**r) for r in resultados] if resultados else []
 
     @staticmethod
     def filter_by_status(status):
@@ -101,10 +105,12 @@ class Evento:
         hoje = date.today()
         if status == "proximos":
             query = "SELECT * FROM eventos WHERE data_inicio >= %s ORDER BY data_inicio ASC"
-            return execute_query(query, (hoje,))
+            resultados = execute_query(query, (hoje,))
+            return [Evento(**r) for r in resultados] if resultados else []
         elif status == "realizados":
             query = "SELECT * FROM eventos WHERE data_fim < %s ORDER BY data_inicio DESC"
-            return execute_query(query, (hoje,))
+            resultados = execute_query(query, (hoje,))
+            return [Evento(**r) for r in resultados] if resultados else []
         else:
             return Evento.get_all()
 
@@ -135,5 +141,6 @@ class Evento:
         """Retorna os próximos eventos"""
         hoje = date.today()
         query = "SELECT * FROM eventos WHERE data_inicio >= %s ORDER BY data_inicio ASC LIMIT %s"
-        return execute_query(query, (hoje, limit))
+        resultados = execute_query(query, (hoje, limit))
+        return [Evento(**r) for r in resultados] if resultados else []
 
