@@ -14,6 +14,9 @@ from controllers.geochat_controller import GeoChatController
 from models.restaurante import Restaurante  # opcional se quiser usar em utilitários
 from werkzeug.utils import secure_filename  # opcional se quiser usar em utilitários
 
+
+
+
 # 🔧 Inicializa o Flask antes de tudo
 app = Flask(__name__)
 
@@ -42,3 +45,4 @@ from routes.web import *
 # 🚪 Ponto de entrada da aplicação
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+

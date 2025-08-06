@@ -16,6 +16,7 @@ from config.database import execute_query, execute_query_one
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_huggingface import HuggingFaceEmbeddings
 from bs4 import BeautifulSoup  # Para web scraping
 
 logger = logging.getLogger(__name__)

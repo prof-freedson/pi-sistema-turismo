@@ -1,50 +1,44 @@
 from flask import request, flash, redirect, url_for, render_template, current_app
 from werkzeug.utils import secure_filename
 from models.evento import Evento
+from models.restaurante import Restaurante
 from datetime import datetime
 import os
 
-
 class EventoController:
 
+    # 🔹 Método para exibir a lista de eventos internos (admin/usuário)
     def index(self):
-        """Lista todos os eventos"""
         try:
-            busca = request.args.get('busca', '')
-            tipo_filtro = request.args.get('tipo', 'Todos')
-            status_filtro = request.args.get('status', 'todos')
+            eventos = Evento.get_all()
+            return render_template("eventos/index.html", eventos=eventos)
+        except Exception as e:
+            flash(f"Erro ao carregar eventos: {str(e)}", "error")
+            return render_template("eventos/index.html", eventos=[])
 
-            if busca:
-                eventos = Evento.search(busca)
-            elif tipo_filtro != 'Todos':
-                eventos = Evento.filter_by_type(tipo_filtro)
-            elif status_filtro != 'todos':
-                eventos = Evento.filter_by_status(status_filtro)
-            else:
-                eventos = Evento.get_all()
-
-            tipos = ['Show', 'Evento', 'Festival', 'Teatro', 'Exposição']
-            return render_template('eventos/index.html',
+    # 🔹 Página pública que mostra eventos + restaurantes
+    def index_visitante(self):
+        try:
+            eventos = Evento.get_all()
+            restaurantes = Restaurante.get_all()
+            return render_template("visitantes.html",
                                    eventos=eventos,
-                                   tipos=tipos,
-                                   busca=busca,
-                                   tipo_filtro=tipo_filtro,
-                                   status_filtro=status_filtro)
+                                   restaurantes=restaurantes,
+                                   esconder_menu=True)
         except Exception as e:
-            flash(f'Erro ao carregar eventos: {str(e)}', 'error')
-            return render_template('eventos/index.html', eventos=[])
+            flash(f'Erro ao carregar dados públicos: {str(e)}', 'error')
+            return render_template("visitantes.html",
+                                   eventos=[],
+                                   restaurantes=[],
+                                   esconder_menu=True)
 
+    # 🔹 Página de criação de evento (GET)
     def create(self):
-        """Exibe o formulário de criação de novo evento"""
-        try:
-            tipos = ['Show', 'Evento', 'Festival', 'Teatro', 'Exposição']
-            return render_template('eventos/create.html', tipos=tipos)
-        except Exception as e:
-            flash(f'Erro ao carregar formulário: {str(e)}', 'error')
-            return redirect(url_for('eventos'))
+        tipos = ['Show', 'Evento', 'Festival', 'Teatro', 'Exposição']
+        return render_template('eventos/create.html', tipos=tipos)
 
+    # 🔹 Criação de evento (POST)
     def store(self):
-        """Salva novo evento enviado pelo formulário"""
         try:
             data_inicio_raw = request.form.get('data_inicio')
             data_fim_raw = request.form.get('data_fim')
@@ -102,8 +96,8 @@ class EventoController:
             flash(f'Erro ao criar evento: {str(e)}', 'error')
             return redirect(url_for('evento_create'))
 
+    # 🔹 Página de edição de evento (GET)
     def edit(self, evento_id):
-        """Carrega dados do evento para edição"""
         try:
             evento = Evento.get_by_id(evento_id)
             if not evento:
@@ -117,8 +111,8 @@ class EventoController:
             flash(f'Erro ao carregar evento para edição: {str(e)}', 'error')
             return redirect(url_for('eventos'))
 
+    # 🔹 Atualização de evento (POST)
     def update(self, evento_id):
-        """Atualiza um evento com suporte a upload de imagem"""
         try:
             data_inicio_raw = request.form.get('data_inicio')
             data_fim_raw = request.form.get('data_fim')
@@ -176,8 +170,8 @@ class EventoController:
             flash(f'Erro ao atualizar evento: {str(e)}', 'error')
             return redirect(url_for('evento_edit', evento_id=evento_id))
 
+    # 🔹 Exibição de evento específico
     def show(self, evento_id):
-        """Exibe os detalhes de um evento específico"""
         try:
             evento = Evento.get_by_id(evento_id)
             if not evento:
@@ -186,4 +180,20 @@ class EventoController:
             return render_template("eventos/show.html", evento=evento)
         except Exception as e:
             flash(f"Erro ao carregar evento: {str(e)}", "error")
+            return redirect(url_for("eventos"))
+
+    # 🔹 Deleção de evento
+    def delete(self, evento_id):
+        try:
+            evento = Evento.get_by_id(evento_id)
+            if not evento:
+                flash("Evento não encontrado.", "error")
+                return redirect(url_for("eventos"))
+
+            Evento.delete(evento_id)
+            flash("Evento deletado com sucesso!", "success")
+            return redirect(url_for("eventos"))
+
+        except Exception as e:
+            flash(f"Erro ao deletar evento: {str(e)}", "error")
             return redirect(url_for("eventos"))

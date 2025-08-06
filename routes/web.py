@@ -1,6 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from flask import request, flash, redirect, url_for, render_template, current_app 
 from app import app, evento_controller, restaurante_controller, dashboard_controller, auth_controller, geochat_controller
 from controllers.evento_controller import EventoController
@@ -9,8 +10,12 @@ from controllers.geochat_controller import GeoChatController
 # Inicialização do controller do chatbot
 geochat_controller = GeoChatController()
 
-# ===== Rotas Principais =====
+# ===== Rota Inicial (Visitante) =====
 @app.route('/')
+def visitante_home():
+    return evento_controller.index_visitante()
+
+# ===== Rota do Dashboard (Admin/Usuário) =====
 @app.route('/dashboard')
 def dashboard():
     return dashboard_controller.index()
@@ -47,7 +52,7 @@ def register_admin():
 # ===== Rotas de Eventos =====
 @app.route('/eventos')
 def eventos():
-    return evento_controller.index()
+    return evento_controller.index()  # ✅ Corrigido: chama o novo método index
 
 @app.route('/eventos/<int:evento_id>')
 def evento_show(evento_id):
