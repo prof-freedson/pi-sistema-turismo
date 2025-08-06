@@ -343,7 +343,7 @@ class GeoChatController:
     def chat_page(self):
         """Renderiza a página do chat"""
         if 'user_id' not in session:
-            return redirect(url_for('login_form'))
+            return redirect(url_for('chat/index.html'))
         return render_template('chat/index.html')
     
     def handle_chat(self):
