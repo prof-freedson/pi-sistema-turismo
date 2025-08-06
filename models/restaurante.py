@@ -17,6 +17,7 @@ class Restaurante:
         self.tem_delivery = kwargs.get('tem_delivery', False)
         self.tem_estacionamento = kwargs.get('tem_estacionamento', False)
         self.data_criacao = kwargs.get('data_criacao')
+        self.data_atualizacao = kwargs.get('data_atualizacao')
 
 
 

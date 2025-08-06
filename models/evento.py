@@ -5,7 +5,7 @@ class Evento:
     def __init__(self, id=None, nome_evento=None, tipo=None, descricao=None, 
                  data_inicio=None, data_fim=None, horario=None, local=None, 
                  endereco=None, preco=None, capacidade=None, organizador=None, 
-                 contato=None, url_imagem=None):
+                 contato=None, url_imagem=None, data_criacao=None, data_atualizacao=None):
         self.id = id
         self.nome_evento = nome_evento
         self.tipo = tipo
@@ -20,6 +20,8 @@ class Evento:
         self.organizador = organizador
         self.contato = contato
         self.url_imagem = url_imagem
+        self.data_criacao = data_criacao
+        self.data_atualizacao = data_atualizacao
 
     @staticmethod
     def get_all():
