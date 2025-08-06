@@ -16,7 +16,7 @@ body {
     background-color: var(--maranhao-light);
 }
 
-/* Cores personalizadas do Maranhão */
+/* Cores personalizadas */
 .bg-maranhao {
     background: linear-gradient(135deg, var(--maranhao-red) 0%, var(--maranhao-blue) 100%);
 }
@@ -25,19 +25,49 @@ body {
     color: var(--maranhao-red);
 }
 
+/* Botões */
+.btn {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .btn-maranhao {
     background-color: var(--maranhao-red);
     border-color: var(--maranhao-red);
     color: white;
-    transition: all 0.3s ease;
 }
 
 .btn-maranhao:hover {
     background-color: var(--maranhao-blue);
     border-color: var(--maranhao-blue);
+}
+
+.btn-primary {
+    background-color: var(--maranhao-blue);
+    border-color: var(--maranhao-blue);
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--maranhao-red);
+    border-color: var(--maranhao-red);
+}
+
+.btn-success {
+    background-color: var(--maranhao-green);
+    border-color: var(--maranhao-green);
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #1e7e1e;
+    border-color: #1e7e1e;
 }
 
 /* Sidebar */
@@ -76,12 +106,15 @@ body {
     font-size: 1.1em;
 }
 
-/* Cards personalizados */
+/* Cards */
 .card {
     border: none;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    max-width: 340px;
+    min-height: 520px;
+    margin: 0 auto;
 }
 
 .card:hover {
@@ -96,48 +129,43 @@ body {
     border: none;
 }
 
-/* Botões personalizados */
-.btn {
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-weight: 500;
+/* Carrossel */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: transparent;
+    background-image: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: rgba(30, 30, 30, 0.3);
+    font-weight: bold;
+    z-index: 5;
 }
 
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.carousel-control-prev-icon::after {
+    content: '<';
 }
 
-.btn-primary {
-    background-color: var(--maranhao-blue);
-    border-color: var(--maranhao-blue);
+.carousel-control-next-icon::after {
+    content: '>';
 }
 
-.btn-primary:hover {
-    background-color: var(--maranhao-red);
-    border-color: var(--maranhao-red);
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    color: rgba(30, 30, 30, 0.6);
 }
 
-.btn-success {
-    background-color: var(--maranhao-green);
-    border-color: var(--maranhao-green);
-}
-
-.btn-success:hover {
-    background-color: #1e7e1e;
-    border-color: #1e7e1e;
-}
-
-.btn-warning {
-    background-color: var(--maranhao-yellow);
-    border-color: var(--maranhao-yellow);
-    color: var(--maranhao-dark);
-}
-
-.btn-warning:hover {
-    background-color: #e6c200;
-    border-color: #e6c200;
-    color: var(--maranhao-dark);
+/* Logo central */
+.logo-central {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
 }
 
 /* Formulários */
@@ -157,7 +185,7 @@ body {
     color: var(--maranhao-dark);
 }
 
-/* Badges personalizados */
+/* Badges */
 .badge {
     border-radius: 6px;
     font-weight: 500;
@@ -209,21 +237,13 @@ body {
     color: var(--maranhao-dark);
 }
 
-/* Animações */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Imagens nos cards */
+.card-img-top {
+    transition: all 0.3s ease;
 }
 
-.card, .alert {
-    animation: fadeInUp 0.6s ease-out;
+.card:hover .card-img-top {
+    transform: scale(1.05);
 }
 
 /* Responsividade */
@@ -233,44 +253,38 @@ body {
         height: auto;
         padding: 0;
     }
-    
+
     .sidebar .nav-link {
         margin: 1px 4px;
         padding: 8px 12px;
     }
-    
+
     main {
         margin-left: 0 !important;
     }
+
+    .row.align-items-start.text-center > div {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 2rem;
+    }
 }
 
-/* Efeitos de hover para cards de eventos e restaurantes */
-.card-img-top {
-    transition: all 0.3s ease;
-}
-
-.card:hover .card-img-top {
-    transform: scale(1.05);
-}
-
-/* Estilo para o login */
+/* Outros ajustes */
 .vh-100 {
     min-height: 100vh;
 }
 
-/* Customização do input group */
 .input-group-text {
     background-color: var(--maranhao-light);
     border-color: #e9ecef;
     color: var(--maranhao-blue);
 }
 
-/* Efeitos de transição suaves */
 * {
     transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Estilo para elementos ativos no sidebar */
 .sidebar .nav-link.active::before {
     content: '';
     position: absolute;
@@ -283,7 +297,6 @@ body {
     border-radius: 0 4px 4px 0;
 }
 
-/* Melhorias visuais para botões de ação */
 .btn-group .btn {
     border-radius: 0;
 }
@@ -300,39 +313,18 @@ body {
     border-radius: 8px;
 }
 
-/* Estilo para checkboxes */
 .form-check-input:checked {
     background-color: var(--maranhao-blue);
     border-color: var(--maranhao-blue);
 }
 
-/* Melhorias para o header das páginas */
 .border-bottom {
     border-color: var(--maranhao-light-blue) !important;
     border-width: 2px !important;
 }
 
-/* Estilo para elementos de estatísticas no dashboard */
-.card.bg-primary, .card.bg-success, .card.bg-warning, .card.bg-info {
-    background: linear-gradient(135deg, var(--color-start) 0%, var(--color-end) 100%);
-}
-
-.card.bg-primary {
-    --color-start: var(--maranhao-blue);
-    --color-end: var(--maranhao-light-blue);
-}
-
-.card.bg-success {
-    --color-start: var(--maranhao-green);
-    --color-end: #32cd32;
-}
-
-.card.bg-warning {
-    --color-start: var(--maranhao-yellow);
-    --color-end: #ffa500;
-}
-
-.card.bg-info {
-    --color-start: var(--maranhao-light-blue);
-    --color-end: #add8e6;
-}
+/* Animações */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform:

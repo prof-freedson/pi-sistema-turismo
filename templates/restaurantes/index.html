@@ -12,141 +12,120 @@
 {% endblock %}
 
 {% block content %}
-<!-- Filtros e Busca -->
-<div class="card mb-4">
-    <div class="card-body">
-        <form method="GET" action="{{ url_for('restaurantes') }}">
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label for="busca" class="form-label">Buscar</label>
-                    <input type="text" class="form-control" id="busca" name="busca" 
-                           value="{{ busca }}" placeholder="Nome, descrição, bairro ou endereço">
-                </div>
-                <div class="col-md-3">
-                    <label for="culinaria" class="form-label">Tipo de Culinária</label>
-                    <select class="form-select" id="culinaria" name="culinaria">
-                        <option value="Todas" {% if culinaria_filtro == 'Todas' %}selected{% endif %}>Todas</option>
-                        {% for tipo in tipos_culinaria %}
-                        <option value="{{ tipo }}" {% if culinaria_filtro == tipo %}selected{% endif %}>{{ tipo }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="preco" class="form-label">Faixa de Preço</label>
-                    <select class="form-select" id="preco" name="preco">
-                        <option value="Todas" {% if preco_filtro == 'Todas' %}selected{% endif %}>Todas</option>
-                        {% for faixa in faixas_preco %}
-                        <option value="{{ faixa }}" {% if preco_filtro == faixa %}selected{% endif %}>{{ faixa }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">&nbsp;</label>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-outline-primary">
-                            <i class="bi bi-search me-1"></i>
-                            Filtrar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
+
+{# 🔍 Bloco de busca simplificado e elegante, sem card envolvente #}
+<form method="GET" action="{{ url_for('restaurantes') }}" class="mb-4">
+  <div class="row g-2 align-items-end">
+
+    {# Campo de texto para busca geral: nome, descrição, bairro, etc #}
+    <div class="col-md-10">
+      <label for="busca" class="form-label">Buscar</label>
+      <input type="text" class="form-control" id="busca" name="busca" 
+             value="{{ busca }}" placeholder="Nome, descrição, bairro ou endereço">
     </div>
-</div>
 
-<!-- Lista de Restaurantes -->
+    {# Botão de busca estilizado e alinhado à direita #}
+    <div class="col-md-2 text-end">
+      <button type="submit" class="btn btn-outline-primary w-100">
+        <i class="bi bi-search me-1"></i>
+        Buscar
+      </button>
+    </div>
+
+  </div>
+</form>
+
+{# 🗂️ Lista de Restaurantes exibidos como cards #}
 <div class="row">
-    {% if restaurantes %}
-        {% for restaurante in restaurantes %}
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card h-100">
-                {% if restaurante.url_imagem %}
-                <img src="{{ restaurante.url_imagem }}" class="card-img-top" alt="{{ restaurante.nome_restaurante }}" style="height: 200px; object-fit: cover;">
-                {% else %}
-                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                    <i class="bi bi-shop fs-1 text-muted"></i>
-                </div>
-                {% endif %}
-                
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ restaurante.nome_restaurante }}</h5>
-                    <p class="card-text">
-                        <span class="badge bg-success mb-2">{{ restaurante.tipo_culinaria }}</span>
-                        <span class="badge bg-warning text-dark mb-2">{{ restaurante.faixa_preco }}</span><br>
-                        <small class="text-muted">
-                            <i class="bi bi-geo-alt me-1"></i>
-                            {{ restaurante.bairro }}
-                        </small><br>
-                        {% if restaurante.telefone %}
-                        <small class="text-muted">
-                            <i class="bi bi-telephone me-1"></i>
-                            {{ restaurante.telefone }}
-                        </small><br>
-                        {% endif %}
-                        {% if restaurante.horario_funcionamento %}
-                        <small class="text-muted">
-                            <i class="bi bi-clock me-1"></i>
-                            {{ restaurante.horario_funcionamento }}
-                        </small>
-                        {% endif %}
-                    </p>
-                    
-                    {% if restaurante.descricao %}
-                    <p class="card-text">{{ restaurante.descricao[:100] }}{% if restaurante.descricao|length > 100 %}...{% endif %}</p>
-                    {% endif %}
-                    
-                    <!-- Características -->
-                    <div class="mb-2">
-                        {% if restaurante.aceita_reservas %}
-                        <span class="badge bg-info me-1">
-                            <i class="bi bi-calendar-check me-1"></i>Reservas
-                        </span>
-                        {% endif %}
-                        {% if restaurante.tem_delivery %}
-                        <span class="badge bg-primary me-1">
-                            <i class="bi bi-truck me-1"></i>Delivery
-                        </span>
-                        {% endif %}
-                        {% if restaurante.tem_estacionamento %}
-                        <span class="badge bg-secondary me-1">
-                            <i class="bi bi-car-front me-1"></i>Estacionamento
-                        </span>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="mt-auto">
-                        <div class="btn-group w-100" role="group">
-                            <a href="{{ url_for('restaurante_show', restaurante_id=restaurante.id) }}" class="btn btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="{{ url_for('restaurante_edit', restaurante_id=restaurante.id) }}" class="btn btn-outline-warning">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <form method="POST" action="{{ url_for('restaurante_delete', restaurante_id=restaurante.id) }}" class="d-inline" 
-                                  onsubmit="return confirm('Tem certeza que deseja excluir este restaurante?')">
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  {% if restaurantes %}
+    {% for restaurante in restaurantes %}
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100">
+        
+        {# Imagem do restaurante ou ícone padrão #}
+        {% if restaurante.url_imagem %}
+        <img src="{{ restaurante.url_imagem }}" class="card-img-top" alt="{{ restaurante.nome_restaurante }}" style="height: 200px; object-fit: cover;">
+        {% else %}
+        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+          <i class="bi bi-shop fs-1 text-muted"></i>
         </div>
-        {% endfor %}
-    {% else %}
-        <div class="col-12">
-            <div class="text-center text-muted py-5">
-                <i class="bi bi-shop-window fs-1"></i>
-                <h4 class="mt-3">Nenhum restaurante encontrado</h4>
-                <p>Não há restaurantes cadastrados ou que correspondam aos filtros aplicados.</p>
-                <a href="{{ url_for('restaurante_create') }}" class="btn btn-success">
-                    <i class="bi bi-plus-circle me-1"></i>
-                    Cadastrar Primeiro Restaurante
-                </a>
-            </div>
-        </div>
-    {% endif %}
-</div>
-{% endblock %}
+        {% endif %}
+        
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ restaurante.nome_restaurante }}</h5>
+          <p class="card-text">
+            <span class="badge bg-success mb-2">{{ restaurante.tipo_culinaria }}</span>
+            <span class="badge bg-warning text-dark mb-2">{{ restaurante.faixa_preco }}</span><br>
 
+            {# Informações adicionais #}
+            <small class="text-muted">
+              <i class="bi bi-geo-alt me-1"></i>{{ restaurante.bairro }}
+            </small><br>
+            {% if restaurante.telefone %}
+            <small class="text-muted">
+              <i class="bi bi-telephone me-1"></i>{{ restaurante.telefone }}
+            </small><br>
+            {% endif %}
+            {% if restaurante.horario_funcionamento %}
+            <small class="text-muted">
+              <i class="bi bi-clock me-1"></i>{{ restaurante.horario_funcionamento }}
+            </small>
+            {% endif %}
+          </p>
+
+          {# Descrição resumida #}
+          {% if restaurante.descricao %}
+          <p class="card-text">{{ restaurante.descricao[:100] }}{% if restaurante.descricao|length > 100 %}...{% endif %}</p>
+          {% endif %}
+
+          {# Características adicionais como reservas, delivery etc #}
+          <div class="mb-2">
+            {% if restaurante.aceita_reservas %}
+            <span class="badge bg-info me-1"><i class="bi bi-calendar-check me-1"></i>Reservas</span>
+            {% endif %}
+            {% if restaurante.tem_delivery %}
+            <span class="badge bg-primary me-1"><i class="bi bi-truck me-1"></i>Delivery</span>
+            {% endif %}
+            {% if restaurante.tem_estacionamento %}
+            <span class="badge bg-secondary me-1"><i class="bi bi-car-front me-1"></i>Estacionamento</span>
+            {% endif %}
+          </div>
+
+          {# Ações do restaurante (ver, editar, excluir) #}
+          <div class="mt-auto">
+            <div class="btn-group w-100" role="group">
+              <a href="{{ url_for('restaurante_show', restaurante_id=restaurante.id) }}" class="btn btn-outline-primary">
+                <i class="bi bi-eye"></i>
+              </a>
+              <a href="{{ url_for('restaurante_edit', restaurante_id=restaurante.id) }}" class="btn btn-outline-warning">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <form method="POST" action="{{ url_for('restaurante_delete', restaurante_id=restaurante.id) }}" class="d-inline" 
+                    onsubmit="return confirm('Tem certeza que deseja excluir este restaurante?')">
+                <button type="submit" class="btn btn-outline-danger">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    {# Mensagem de ausência de restaurantes #}
+    <div class="col-12">
+      <div class="text-center text-muted py-5">
+        <i class="bi bi-shop-window fs-1"></i>
+        <h4 class="mt-3">Nenhum restaurante encontrado</h4>
+        <p>Não há restaurantes cadastrados ou que correspondam aos filtros aplicados.</p>
+        <a href="{{ url_for('restaurante_create') }}" class="btn btn-success">
+          <i class="bi bi-plus-circle me-1"></i>
+          Cadastrar Primeiro Restaurante
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

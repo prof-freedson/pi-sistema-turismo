@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Visitantes - Encantos da Ilha{% endblock %}
+
+{% block content %}
+
+
+<div class="row align-items-start text-center">
+    <!-- Restaurantes -->
+    <div class="col-md-4 mb-4">
+        <h4 class="mb-3">🍽️ Restaurantes</h4>
+        {% if restaurantes %}
+        <div id="carouselRestaurantes" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for restaurante in restaurantes %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <div class="card mx-auto" style="max-width: 340px; min-height: 520px;">
+                        <img src="{{ restaurante.url_imagem }}" class="card-img-top" alt="{{ restaurante.nome_restaurante }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ restaurante.nome_restaurante }}</h5>
+                            <p class="card-text">{{ restaurante.descricao }}</p>
+                            <p class="card-text"><strong>Endereço:</strong> {{ restaurante.endereco }}</p>
+                            <a href="{{ url_for('restaurante_show', restaurante_id=restaurante.id) }}" class="btn btn-success">Ver detalhes</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselRestaurantes" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselRestaurantes" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+        {% else %}
+        <p class="text-muted">Nenhum restaurante disponível no momento.</p>
+        {% endif %}
+    </div>
+
+    <!-- Logo central -->
+    <div class="col-md-4 mb-4 d-flex flex-column align-items-center justify-content-start logo-central">
+        <img src="{{ url_for('static', filename='img/LOGO.png') }}" alt="Encantos da Ilha"
+             class="img-fluid mb-2" style="max-width: 200px;">
+        <h3 class="text-maranhao">Encantos da Ilha</h3>
+        <p class="text-muted">Sabores e cultura do Maranhão</p>
+    </div>
+
+    <!-- Eventos -->
+    <div class="col-md-4 mb-4">
+        <h4 class="mb-3">🎉 Eventos</h4>
+        {% if eventos %}
+        <div id="carouselEventos" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for evento in eventos %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <div class="card mx-auto" style="max-width: 340px; min-height: 520px;">
+                        <img src="{{ evento.url_imagem }}" class="card-img-top" alt="{{ evento.nome_evento }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ evento.nome_evento }}</h5>
+                            <p class="card-text">{{ evento.descricao }}</p>
+                            <p class="card-text"><strong>Local:</strong> {{ evento.local }}</p>
+                            <p class="card-text">
+                                <strong>Data:</strong> {{ evento.data_inicio.strftime('%d/%m/%Y') }}
+                                {% if evento.data_fim %} a {{ evento.data_fim.strftime('%d/%m/%Y') }}{% endif %}
+                            </p>
+                            <a href="{{ url_for('evento_show', evento_id=evento.id) }}" class="btn btn-primary">Ver detalhes</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventos" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselEventos" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+        {% else %}
+        <p class="text-muted">Nenhum evento disponível no momento.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+#map-container {
+    height: 300px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    margin-bottom: 15px;
+}
+
+#chat-container {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
+
+.location-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-bottom: 10px;
+}
+
+.location-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#images-container img {
+    border-radius: 5px;
+    margin-right: 5px;
+}

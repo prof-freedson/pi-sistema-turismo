@@ -46,6 +46,12 @@
                                 Restaurantes
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {% if request.endpoint == 'chat_page' %}active{% endif %}" href="{{ url_for('chat_page') }}">
+                                <i class="bi bi-robot me-2"></i>
+                                Assistente Virtual
+                            </a>
+                        </li>
                     </ul>
                     
                     <hr class="text-white">
@@ -75,9 +81,18 @@
             {% endif %}
 
             <!-- Main content ajustável -->
-            <main class="{% if esconder_menu %}col-md-12{% else %}col-md-9 ms-sm-auto col-lg-10{% endif %} px-md-4">
+            <main class="{% if esconder_menu %}col-12{% else %}col-md-9 ms-sm-auto col-lg-10{% endif %} px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">{% block page_title %}Dashboard{% endblock %}</h1>
+                    <!-- Exemplo de topo com logo substituindo "Dashboard" -->
+                    <nav class="navbar navbar-light bg-light px-3 mb-4">
+                        <a class="navbar-brand d-flex align-items-center" href="{{ url_for('dashboard') }}">
+                            <img src="{{ url_for('static', filename='img/LOGO.png') }}"
+                                alt="Encantos da Ilha" style="max-height: 48px;" class="me-2">
+                            <span class="fs-4 fw-bold">Encantos da Ilha</span>
+                        </a>
+                    </nav>
+
+
                     <div class="btn-toolbar mb-2 mb-md-0">
                         {% block page_actions %}{% endblock %}
                     </div>
