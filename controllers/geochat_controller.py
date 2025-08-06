@@ -344,7 +344,7 @@ class GeoChatController:
     def chat_page(self):
         """Renderiza a página do chat"""
         # Permite acesso sem autenticação para demonstração
-        return render_template('chat/index.html')
+        return render_template('chat/index.html', esconder_menu=True)
     
     def handle_chat(self):
         """Processa as mensagens do chat com foco em geolocalização e RAG"""
