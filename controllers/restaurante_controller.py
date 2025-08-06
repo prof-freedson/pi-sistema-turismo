@@ -62,7 +62,7 @@ class RestauranteController:
             if not restaurante:
                 flash('Restaurante não encontrado', 'error')
                 return redirect(url_for('restaurantes'))
-            return render_template('restaurantes/show.html', restaurante=restaurante)
+            return render_template('restaurantes/show.html', restaurante=restaurante, esconder_menu=True)
         except Exception as e:
             flash(f'Erro ao carregar restaurante: {str(e)}', 'error')
             return redirect(url_for('restaurantes'))

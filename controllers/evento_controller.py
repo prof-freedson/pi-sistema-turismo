@@ -177,7 +177,7 @@ class EventoController:
             if not evento:
                 flash("Evento não encontrado.", "error")
                 return redirect(url_for("eventos"))
-            return render_template("eventos/show.html", evento=evento)
+            return render_template("eventos/show.html", evento=evento, esconder_menu=True)
         except Exception as e:
             flash(f"Erro ao carregar evento: {str(e)}", "error")
             return redirect(url_for("eventos"))

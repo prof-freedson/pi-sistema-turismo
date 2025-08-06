@@ -1,36 +1,164 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ restaurante.nome_restaurante }} - Encantos da Ilha{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4">{{ restaurante.nome_restaurante }}</h2>
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('visitante_home') }}">Início</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('restaurantes') }}">Restaurantes</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ restaurante.nome_restaurante }}</li>
+                </ol>
+            </nav>
 
-    <div class="card shadow-sm mb-4">
-        <img src="{{ restaurante.url_imagem }}" class="card-img-top" alt="Imagem do restaurante">
-        <div class="card-body">
-            <p class="card-text"><strong>Descrição:</strong> {{ restaurante.descricao }}</p>
-            <p class="card-text"><strong>Tipo de culinária:</strong> {{ restaurante.tipo_culinaria }}</p>
-            <p class="card-text"><strong>Faixa de preço:</strong> {{ restaurante.faixa_preco }}</p>
-            <p class="card-text"><strong>Endereço:</strong> {{ restaurante.endereco }}</p>
-            <p class="card-text"><strong>Bairro:</strong> {{ restaurante.bairro }}</p>
-            <p class="card-text"><strong>Telefone:</strong> {{ restaurante.telefone }}</p>
-            <p class="card-text"><strong>Horário de funcionamento:</strong> {{ restaurante.horario_funcionamento }}</p>
-            
-            <ul class="list-group list-group-flush mt-3">
-                <li class="list-group-item">
-                    <strong>Reservas:</strong> 
-                    {% if restaurante.aceita_reservas %}✅ Sim{% else %}❌ Não{% endif %}
-                </li>
-                <li class="list-group-item">
-                    <strong>Delivery:</strong> 
-                    {% if restaurante.tem_delivery %}✅ Sim{% else %}❌ Não{% endif %}
-                </li>
-                <li class="list-group-item">
-                    <strong>Estacionamento:</strong> 
-                    {% if restaurante.tem_estacionamento %}✅ Sim{% else %}❌ Não{% endif %}
-                </li>
-            </ul>
+            <div class="row">
+                <!-- Coluna da Imagem (Esquerda) -->
+                <div class="col-md-6 mb-4">
+                    <div class="position-relative">
+                        {% if restaurante.url_imagem %}
+                        <img src="{{ restaurante.url_imagem }}" class="img-fluid rounded shadow" 
+                             alt="{{ restaurante.nome_restaurante }}" style="width: 100%; height: 400px; object-fit: cover;">
+                        {% else %}
+                        <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                             style="width: 100%; height: 400px;">
+                            <i class="bi bi-shop text-muted" style="font-size: 4rem;"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Badge do tipo de culinária no canto superior esquerdo -->
+                        <div class="position-absolute top-0 start-0 m-3">
+                            <span class="badge bg-success fs-6 px-3 py-2">{{ restaurante.tipo_culinaria }}</span>
+                        </div>
+                        
+                        <!-- Badge da faixa de preço no canto superior direito -->
+                        <div class="position-absolute top-0 end-0 m-3">
+                            <span class="badge bg-primary fs-6 px-3 py-2">{{ restaurante.faixa_preco }}</span>
+                        </div>
+                    </div>
+                </div>
 
-            <a href="{{ url_for('restaurantes') }}" class="btn btn-outline-primary mt-4">⬅ Voltar para lista</a>
+                <!-- Coluna das Informações (Direita) -->
+                <div class="col-md-6">
+                    <!-- Título e Descrição -->
+                    <h1 class="display-6 mb-3">{{ restaurante.nome_restaurante }}</h1>
+                    
+                    {% if restaurante.descricao %}
+                    <p class="lead text-muted mb-4">{{ restaurante.descricao }}</p>
+                    {% endif %}
+
+                    <!-- Informações Principais -->
+                    <div class="mb-4">
+                        <!-- Endereço -->
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="bi bi-geo-alt text-primary fs-5 me-3 mt-1"></i>
+                            <div>
+                                <strong>Endereço:</strong><br>
+                                <span class="text-muted">
+                                    {{ restaurante.endereco }}<br>
+                                    <strong>{{ restaurante.bairro }}</strong>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Telefone -->
+                        {% if restaurante.telefone %}
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-telephone text-primary fs-5 me-3"></i>
+                            <div>
+                                <strong>Contato:</strong><br>
+                                <span class="text-muted">{{ restaurante.telefone }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Horário de Funcionamento -->
+                        {% if restaurante.horario_funcionamento %}
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-clock text-primary fs-5 me-3"></i>
+                            <div>
+                                <strong>Horário de Funcionamento:</strong><br>
+                                <span class="text-muted">{{ restaurante.horario_funcionamento }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Informações Adicionais -->
+                    <div class="row mb-4">
+                        {% if restaurante.capacidade %}
+                        <div class="col-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-people text-primary me-2"></i>
+                                <span><strong>Capacidade:</strong> {{ restaurante.capacidade }} pessoas</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="col-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-currency-dollar text-primary me-2"></i>
+                                <span><strong>Faixa de Preço:</strong> {{ restaurante.faixa_preco }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Serviços Disponíveis -->
+                    <div class="mb-4">
+                        <h6 class="mb-3"><strong>Serviços Disponíveis:</strong></h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <span>Reservas: 
+                                        {% if restaurante.aceita_reservas %}
+                                            <span class="text-success">✅ Sim</span>
+                                        {% else %}
+                                            <span class="text-danger">❌ Não</span>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-truck text-primary me-2"></i>
+                                    <span>Delivery: 
+                                        {% if restaurante.tem_delivery %}
+                                            <span class="text-success">✅ Sim</span>
+                                        {% else %}
+                                            <span class="text-danger">❌ Não</span>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-p-square text-primary me-2"></i>
+                                    <span>Estacionamento: 
+                                        {% if restaurante.tem_estacionamento %}
+                                            <span class="text-success">✅ Sim</span>
+                                        {% else %}
+                                            <span class="text-danger">❌ Não</span>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ações -->
+                    <div class="d-grid gap-2 d-md-flex">
+                        <a href="{{ url_for('restaurante_edit', restaurante_id=restaurante.id) }}" class="btn btn-warning btn-lg">
+                            <i class="bi bi-pencil me-2"></i>Editar Restaurante
+                        </a>
+                        <a href="{{ url_for('restaurantes') }}" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-arrow-left me-2"></i>Voltar à Lista
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
